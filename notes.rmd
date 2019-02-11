@@ -1,0 +1,32 @@
+Find more extensive explanations [here](https://shiny.rstudio.com/articles/modules.html), arts of the text here are copy pasted from this webpage. 
+
+### UI modules
+A module's UI function should be given a name that is suffixed with `Input`, `Output`, or `UI`; for example, `mcmc_densUI`.
+
+##### Function arguments
+First argument of the function should always be `id` which will be the namespace for the module. *note*, namespace will be decided by the caller of the module. 
+
+##### Function design
+Always start function with:
+``` 
+# Create a namespace function using the provided id
+ns <- NS(id)
+``` 
+The results are wrapped in `tagList`, instead of `fluidPage`, `pageWithSidebar`.
+
+
+### Server modules
+Module server functions should be named like their corresponding module UI functions, but without the Input/Output/UI suffix. Since our UI function was called `mcmc_densUI`, we’ll call our server function `mcmc_dens `.
+
+##### Function arguments
+Always use `ìnput`, `output` and `session`. `session` **isn't optional**.
+
+##### Function design
+Inside the function body, we can use `input$...` to refer to the `ns("...")` component in the UI function.
+
+The `input`, `output`, and `session` are for within module use only. Do not call reactive values or expressions from elsewhere.
+
+**Calling input from outside the module**
+If a module needs to access an input that isn’t part of the module, the containing app should pass the input value wrapped in a reactive expression (i.e. `reactive(...)`):
+
+`callModule(myModule, "myModule1", reactive(input$checkbox1))`
