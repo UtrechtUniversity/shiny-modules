@@ -11,6 +11,7 @@ ui <- dashboardPage(skin = "black",
                     # dashboardbody code 
                     dashboardBody(
                       tabItems(
+                        tabItem(tabName = "home"),
                         tabItem(tabName = "tab1", 
                                 fluidRow( 
                                   box( width = 12, align = "left",
