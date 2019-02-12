@@ -1,5 +1,5 @@
 library(shiny)
-source("MODULES/csvExample.r")
+source("EXAMPLES/MODULES/csvExample.r")
 
 ui <- fluidPage(
   sidebarLayout(

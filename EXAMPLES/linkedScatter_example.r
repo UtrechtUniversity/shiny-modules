@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-source("MODULES/linkedScatter.r")
+source("EXAMPLES/MODULES/linkedScatter.r")
 
 ui <- fluidPage(
   sidebarLayout(
