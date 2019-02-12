@@ -4,7 +4,7 @@ ui <- fluidPage(
       
     ),
     mainPanel(
-      
+      plotAreaUI("areaPlot")
     )
   )
 )
