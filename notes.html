@@ -147,6 +147,50 @@ ns &lt;- NS(id)</code></pre>
 <h5>Function arguments</h5>
 <p>Always use <code>ìnput</code>, <code>output</code> and <code>session</code>. <code>session</code> <strong>isn’t optional</strong>.</p>
 </div>
+<div id="function-design-1" class="section level5">
+<h5>Function design</h5>
+<p>Inside the function body, we can use <code>input$...</code> to refer to the <code>ns(&quot;...&quot;)</code> component in the UI function.</p>
+<p>The <code>input</code>, <code>output</code>, and <code>session</code> are for within module use only. Do not call reactive values or expressions from elsewhere.</p>
+<p><strong>Calling input from outside the module</strong> If a module needs to access an input that isn’t part of the module, the containing app should pass the input value wrapped in a reactive expression (i.e. <code>reactive(...)</code>):</p>
+<p><code>callModule(myModule, &quot;myModule1&quot;, reactive(input$checkbox1))</code></p>
+</div>
+</div>
+<div id="inside-shiny-application" class="section level3">
+<h3>Inside shiny application</h3>
+<div id="ui-implementation" class="section level5">
+<h5>UI implementation</h5>
+<p>Example UI</p>
+<pre><code>ui &lt;- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      csvFileInput(&quot;datafile&quot;, &quot;User data (.csv format)&quot;)
+    ),
+    mainPanel(
+      dataTableOutput(&quot;table&quot;)
+    )
+  )
+)
+</code></pre>
+</div>
+<div id="server-implementation" class="section level5">
+<h5>Server implementation</h5>
+<p>Example server</p>
+<pre><code>server &lt;- function(input, output, session) {
+  datafile &lt;- callModule(csvFile, &quot;datafile&quot;,
+    stringsAsFactors = FALSE)
+
+  output$table &lt;- renderDataTable({
+    datafile()
+  })
+}
+</code></pre>
+</div>
+</div>
+<div id="notes-checks-for-self" class="section level3">
+<h3>notes / checks for self</h3>
+<ul>
+<li>check if input_reactive_module.r example only works because there is no input module. Perhaps <code>checkboxInput</code> and <code>session = reactive()</code> only work with stand alone output module.</li>
+</ul>
 </div>
 
 

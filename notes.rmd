@@ -30,3 +30,45 @@ The `input`, `output`, and `session` are for within module use only. Do not call
 If a module needs to access an input that isn’t part of the module, the containing app should pass the input value wrapped in a reactive expression (i.e. `reactive(...)`):
 
 `callModule(myModule, "myModule1", reactive(input$checkbox1))`
+
+
+### Inside shiny application
+
+##### UI implementation
+
+Example UI
+```
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      csvFileInput("datafile", "User data (.csv format)")
+    ),
+    mainPanel(
+      dataTableOutput("table")
+    )
+  )
+)
+
+``` 
+
+##### Server implementation
+
+Example server
+
+```
+server <- function(input, output, session) {
+  datafile <- callModule(csvFile, "datafile",
+    stringsAsFactors = FALSE)
+
+  output$table <- renderDataTable({
+    datafile()
+  })
+}
+
+```
+
+
+
+### notes / checks for self
+- check if input_reactive_module.r example only works because there is no input module. Perhaps `checkboxInput` and `session = reactive()` only work with stand alone output module.
+
