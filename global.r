@@ -1,5 +1,6 @@
 # call relevant packages
 library(shiny)
+library(shinydashboard)
 library(bayesplot)
 
 # load relevant modules
