@@ -2,25 +2,46 @@ server <- function(input, output, session) {
   
   observeEvent(input$switchArea,{
     if(input$switchArea == TRUE){
-      insertTab(inputId = "tabs",
-                tabPanel("Area", plotAreaUI("areaPlot", stanFit = fit)),
-                target = "Foo")
+      appendTab(inputId = "tabs",
+                tabPanel("Area", plotAreaUI("areaPlot", stanFit = fit)))
       callModule(plotArea, "areaPlot", stanFit = fit)
     } else {
       removeTab(inputId = "tabs", target = "Area")
     }
   })
+
   
-  observeEvent(input$add, {
-    insertTab(inputId = "tabs",
-              tabPanel("Dynamic", "This a dynamically-added tab"),
-              target = "Bar"
-    )
-  })
-  observeEvent(input$remove, {
-    removeTab(inputId = "tabs", target = "Foo")
+  # reactive may not be needed, if input$switchChains is FALSE the module will
+  # not be called and therefore not be evalueated. So maybe the optional 
+  # evaluation within the module is not needed. 
+  eval_chainsPlot <- reactive(input$switchChains)
+  
+  observeEvent(input$switchChains,{
+    if(input$switchChains == TRUE){
+      appendTab(inputId = "tabs",
+                tabPanel("Chains", plotChainsUI("chainsPlot", stanFit = fit)))
+      callModule(plotChains, "chainsPlot", stanFit = fit, eval = eval_chainsPlot)
+    } else {
+      removeTab(inputId = "tabs", target = "Chains")
+    }
   })
   
+  
+  eval_scatterPlot <- reactive(input$switchScatter)
+  
+  observeEvent(input$switchScatter,{
+    if(input$switchScatter == TRUE){
+      appendTab(inputId = "tabs",
+                tabPanel("Scatter", plotScatterUI("scatterPlot", stanFit = fit)))
+      callModule(plotScatter, "scatterPlot", stanFit = fit, eval = eval_scatterPlot)
+    } else {
+      removeTab(inputId = "tabs", target = "Scatter")
+    }
+  })
+  
+  
+  
+    
   # # call the module plotArea. 
   # # This has been given the name areaPlot in the UI file. 
   # # Use top notation to store output from the server part of the module

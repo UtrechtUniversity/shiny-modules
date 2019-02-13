@@ -17,14 +17,13 @@ ui <- dashboardPage(skin = "black",
                         tabItem(tabName = "tab1", 
                                 sidebarLayout(
                                   sidebarPanel(
-                                    checkboxInput("switchArea", "Area Plot")
+                                    checkboxInput("switchArea", "Area Plot"),
+                                    checkboxInput("switchChains", "Chains Plot"),
+                                    checkboxInput("switchScatter", "Scatter Plot")
                                   ),
                                   mainPanel(
-                                    tabsetPanel(id = "tabs",
-                                                tabPanel("Area", plotAreaUI("areaPlot", stanFit = fit)),
-                                                tabPanel("Foo", "This is the foo tab"),
-                                                tabPanel("Bar", "This is the bar tab")
-                                    )
+                                    tabsetPanel(id = "tabs"
+                                                )
                                   )
                                 )
                         )
