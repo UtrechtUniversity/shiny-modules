@@ -1,4 +1,4 @@
-plotAreaUI <- function(id, stanFit){
+plotChainsUI <- function(id, stanFit){
   ns <- NS(id) # required namespacefunction
   
   fluidRow(
@@ -9,11 +9,15 @@ plotAreaUI <- function(id, stanFit){
   )
 }
 
-plotArea <- function(input, output, session, stanFit){
-  posterior <- as.matrix(fit)
+plotChains <- function(input, output, session, stanFit, eval){
+  
   
   output$plot1 <- renderPlot({
-    mcmc_areas(posterior, pars = input$selectVariable)
+    if(eval()){
+      # only evaluate if eval input is TRUE, eval is a reactive value
+      # determined by a checkbox input in the main app. 
+      stan_trace(stanFit, pars = input$selectVariable)
+    }
   })
   
 }

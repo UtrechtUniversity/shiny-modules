@@ -1,11 +1,12 @@
 # call relevant packages
 library(shiny)
 library(shinydashboard)
+library(rstan)
 library(bayesplot)
 
 # load relevant modules
 source("MODULES/plotAreas.r")
-# source("MODULES/")
+source("MODULES/plotChains.r")
 # source("MODULES/")
 # source("MODULES/")
 
