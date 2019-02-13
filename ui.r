@@ -7,13 +7,15 @@ ui <- dashboardPage(skin = "black",
                                      sidebarMenu(
                                        menuItem(HTML("<i class='fa fa-home'></i>"), tabName = "home"),
                                        menuItem("areas", tabName = "tab1"),
-                                       menuItem("chains", tabName = "tab2")
+                                       menuItem("chains", tabName = "tab2"),
+                                       menuItem("scatter", tabName = "tab3")
                                      )
                     ),
                     # dashboardbody code 
                     dashboardBody(
                       tabItems(
                         tabItem(tabName = "home"),
+                        
                         tabItem(tabName = "tab1", 
                                 fluidRow( 
                                   box( width = 12, align = "left",
@@ -24,6 +26,7 @@ ui <- dashboardPage(skin = "black",
                                   ) # end box
                                 ) # end fluidrow
                         ),
+                        
                         tabItem(tabName = "tab2", 
                                 fluidRow( 
                                   box( width = 12, align = "left",
@@ -31,9 +34,18 @@ ui <- dashboardPage(skin = "black",
                                        plotChainsUI("chainsPlot", stanFit = fit)
                                   ) # end box
                                 ) # end fluidrow
+                        ),
+                        
+                        tabItem(tabName = "tab3", 
+                                fluidRow( 
+                                  box( width = 12, align = "left",
+                                       checkboxInput("scatterPlot_eval", "Get Scatter Plots", value = FALSE),
+                                       plotScatterUI("scatterPlot", stanFit = fit)
+                                  ) # end box
+                                ) # end fluidrow
                         )
                         
-                      )
+                      ) # end tabItems
                       
                     )
 )

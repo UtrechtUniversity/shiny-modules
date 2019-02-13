@@ -7,7 +7,7 @@ library(bayesplot)
 # load relevant modules
 source("MODULES/plotAreas.r")
 source("MODULES/plotChains.r")
-# source("MODULES/")
+source("MODULES/plotScatter.r")
 # source("MODULES/")
 
 
