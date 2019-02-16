@@ -1,5 +1,17 @@
 server <- function(input, output, session) {
   
+  # calling modules
+  
+  # home tab
+  callModule(homepage, "homepage")
+  
+  
+  
+  
+  
+  
+  
+  
   observeEvent(input$switchArea,{
     if(input$switchArea == TRUE){
       appendTab(inputId = "tabs",
