@@ -1,12 +1,29 @@
 homepageUI <- function(id){
   tagList(
-    logo_and_name(),
+    # this top part used to be logo_and_name function. 
+    # Only occured in hompage and about section
+    # so now directly encoded in module.
+    div(div(
+      img(
+        src = "wide_ensemble.png",
+        class = "wide-ensemble",
+        width = "100%"
+      )
+    ),
+    div(
+      style = "margin-top: 25px",
+      img(src = "stan_logo.png", class = "stan-logo"),
+      div(id = "shinystan-title", "ShinyStan")
+    )) 
+    ,
     div(class = "home-links",
         div(id = "model-name",
             br(),
             h2("Model:"),
             h4(fit$stanfit@model_name))), #note this used to be .model_name
     br(), br(), br(), br(),
+    # html used to be called, now directly in module
+    # note that the links do not work to these pages yet. need to fix that.
     HTML("
 <div id = 'links_nav_div'>
 <nav class='cl-effect-9' id='links_nav'>
@@ -40,5 +57,5 @@ homepageUI <- function(id){
 }
 
 homepage <- function(input, output, session){
-  
+  # this module does not do anything on the server side.
 }
