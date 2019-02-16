@@ -72,3 +72,4 @@ server <- function(input, output, session) {
 ### notes / checks for self
 - check if input_reactive_module.r example only works because there is no input module. Perhaps `checkboxInput` and `session = reactive()` only work with stand alone output module.
 
+- use `observe(print(..reactive()..))` to check what it returns in console
