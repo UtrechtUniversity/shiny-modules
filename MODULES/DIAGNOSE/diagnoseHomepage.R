@@ -1,100 +1,89 @@
 diagnoseUI <- function(id){
+  ns <- NS(id)
+  
   tabsetPanel(
     id = "diagnose_tabset",
     
-    #### hmc/nuts plots ####
+    #### hmc/nuts specific diagnostics ####
     tabPanel(
-      title = "NUTS (plots)",
-      # source_ui("diagnostics_customize.R"),
+      title = "HMC diagnostics",
+      
+      # fixed input section of the HMC diagnostics page
+      wellPanel(
+        fluidRow(
+          column(width = 3, h4(textOutput("diagnostic_chain_text"))),
+          column(width = 4, h5("Parameter")),
+          column(width = 4, h5("Transformation"))
+        ),
+        fluidRow(
+          column(
+            width = 3, div(style = "width: 100px;",
+                           numericInput(
+                             "diagnostic_chain",
+                             label = NULL,
+                             value = 0,
+                             min = 0,
+                             # don't allow changing chains if only 1 chain
+                             max = ifelse(sso@n_chain == 1, 0, sso@n_chain)
+                           )
+            )),
+          column(
+            width = 4,
+            selectizeInput(
+              inputId = "diagnostic_param",
+              label = NULL,
+              multiple = FALSE,
+              choices = .param_list,
+              selected = .param_list[1]
+            )
+          )
+          # column(
+          #   width = 3,
+          #   transformation_selectInput("diagnostic_param_transform")
+          # ),
+          # column(
+          #   width = 2,
+          #   actionButton("diagnostic_param_transform_go", "Transform", class = "transform-go")
+          # )
+        )
+      ),
+      
+      
+      # different tabs
       navlistPanel(
         id = "diagnostics_navlist",
         tabPanel(
-          "By model parameter" 
+          "MODULE_x" 
           # source_ui("diagnostics_by_parameter.R")
         ),
         tabPanel(
-          "Sample information"
-          # source_ui("diagnostics_sample.R")
-        ),
-        tabPanel(
-          "Divergence information"
-          # source_ui("diagnostics_ndivergent.R")
-        ),
-        tabPanel(
-          "Energy information"
-          # source_ui("diagnostics_energy.R")
-        ),
-        tabPanel(
-          "Treedepth information" 
-          # source_ui("diagnostics_treedepth.R")
-        ),
-        tabPanel(
-          "Step size information"
-          # source_ui("diagnostics_stepsize.R")
-        ),
-        tabPanel(
-          "Help"
-          # source_ui("diagnostics_help.R")
+          "MODULE_y" 
         ),
         well = FALSE,
         widths = c(2, 10)
       )
     ),
     
-    #### hmc/nuts stats ####
+    #### general diagnostics ####
     tabPanel(
-      title = "HMC/NUTS (stats)",
-      h2("Summary of sampler parameters"),
-      # a_glossary("open_glossary_from_nuts_table"),
-      br(),
-      # source_ui("sampler_stats_customize.R"),
-      # DT::dataTableOutput("sampler_summary"),
-      br()
-    ),
-    
-    #### rhat, n_eff, mcse ####
-    tabPanel(
-      title = "\\(\\hat{R}, n_{eff}, \\text{se}_{mean}\\)"
-      # source_ui("rhat_neff_mcse_layout.R")
-    ),
-    
-    #### autocorrelation ####
-    tabPanel(
-      title = "Autocorrelation",
-      # source_ui("autocorr_customize.R"),
-      wellPanel(fluidRow(
-        column(
-          width = 8,
-          selectizeInput(
-            "ac_params",
-            width = "100%",
-            label = h5("Select or enter parameter names"),
-            choices = c("A", "B"),#.param_list_with_groups,
-            multiple = TRUE
-          )
+      title = "Non-HMC diagnostics",
+      navlistPanel(
+        id = "diagnostics_navlist",
+        tabPanel(
+          "MODULE_x" 
         ),
-        column(
-          width = 3, 
-          offset = 1#,
-          # a_options("autocorr")
-        )
-      ))
-      # plotOutput("autocorr_plot_out")
-    ),
-    
-    #### ppcheck ####
-    tabPanel(
-      title = "PPcheck",
-      h2("Graphical posterior predictive checks"),
-      h6("Experimental feature"),
-      # source_ui(if (.has_rstanarm_ppcs)
-      #   "pp_navlist_rstanarm.R" else "pp_navlist.R"),
-      br()
+        tabPanel(
+          "MODULE_y" 
+        ),
+        well = FALSE,
+        widths = c(2, 10)
+      )
     )
-  )
-    
+    )
 }
 
 diagnose <- function(input, output, session){
+  .param_list <- callModule(makeParamList, "makeParamList", sso = sso)
+  print(.param_list)
   # this module does not do anything on the server side.
 }

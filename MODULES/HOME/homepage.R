@@ -1,4 +1,6 @@
 homepageUI <- function(id){
+  ns <- NS(id)
+  
   tagList(
     # this top part used to be logo_and_name function. 
     # Only occured in hompage and about section
@@ -20,7 +22,7 @@ homepageUI <- function(id){
         div(id = "model-name",
             br(),
             h2("Model:"),
-            h4(fit$stanfit@model_name))), #note this used to be .model_name
+            h4(sso@model_name))), #note this used to be .model_name
     br(), br(), br(), br(),
     # html used to be called, now directly in module
     # note that the links do not work to these pages yet. need to fix that.

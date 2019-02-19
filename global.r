@@ -6,6 +6,10 @@ library(bayesplot)
 
 # load relevant modules
 
+# internal functions that can be used
+source("MODULES/UTILITIES/makeParamList.r")
+source("MODULES/UTILITIES/makeParamListWithGroups.r")
+
 # home tab
 source("MODULES/HOME/homepage.r")
 
@@ -19,16 +23,6 @@ source("MODULES/DIAGNOSE/diagnoseHomepage.r")
 # source("MODULES/")
 # source("MODULES/")
 
-# define functions that are needed
-save_and_close_button <- function() {
-  tags$button(
-    id = 'save_and_close_button',
-    type = "button",
-    class = "btn action-button",
-    onclick = "window.close();",
-    "Save & Close"
-  )
-}
 
 
 

@@ -43,7 +43,13 @@ tagList(
   includeCSS("css/ShinyStan.css"),
   
   navbarPage(
-    save_and_close_button(), # title = NULL
+    tags$button(
+      id = 'save_and_close_button',
+      type = "button",
+      class = "btn action-button",
+      onclick = "window.close();",
+      "Close"
+    ), 
     id = "nav",
     position = "fixed-top",
     collapsible = TRUE,
