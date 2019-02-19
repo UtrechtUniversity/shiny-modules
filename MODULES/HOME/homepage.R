@@ -58,4 +58,16 @@ homepageUI <- function(id){
 
 homepage <- function(input, output, session){
   # this module does not do anything on the server side.
+  # Link to pages from home page table of contents
+  
+  # look in original server part to get this running.
+  # toc_entries <- c("Estimate", "Diagnose", "Explore", "Model Code")
+  # observe({
+  #   local({
+  #     lapply(toc_entries, function(x) {
+  #       id <- paste0("toc_", if (x == "Model Code") "more" else tolower(x))
+  #       shinyjs::onclick(id, updateTabsetPanel(session, "nav", selected = x))
+  #     })
+  #   })
+  # })
 }

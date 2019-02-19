@@ -61,7 +61,8 @@ tagList(
     #### DIAGNOSE ####
     tabPanel(
       title = "Diagnose",
-      icon = icon("medkit")
+      icon = icon("medkit"),
+      diagnoseUI("diagnoseHomepage")
       # source_ui("PAGE_diagnose.R")
     ),
     
