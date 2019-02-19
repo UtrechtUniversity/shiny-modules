@@ -5,21 +5,28 @@ library(rstan)
 library(bayesplot)
 
 # load relevant modules
-source("MODULES/plotAreas.r")
-source("MODULES/plotChains.r")
-source("MODULES/plotScatter.r")
+
+# internal functions that can be used
+source("MODULES/UTILITIES/makeParamList.r")
+source("MODULES/UTILITIES/makeParamListWithGroups.r")
+
+# home tab
+source("MODULES/HOME/homepage.r")
+
+# diagnoses tab
+source("MODULES/DIAGNOSE/diagnoseHomepage.r")
+
+# source("MODULES/plotAreas.r")
+# source("MODULES/plotChains.r")
+# source("MODULES/plotScatter.r")
+# source("MODULES/")
+# source("MODULES/")
 # source("MODULES/")
 
 
+
+
+
 # Example data and fit in global environment
-# Linear regression example code:
-# library(rstanarm)
-# mtcars$mpg10 <- mtcars$mpg / 10
-# fit <- stan_glm(
-#   mpg10 ~ wt + cyl + am,            
-#   data = mtcars,
-#   seed = 13031990
-# ) 
-# saveRDS(fit, "DATA/exampleStanFit.rds")
-# loading data for use in app
-fit <- readRDS("DATA/exampleStanFit.rds")
+# Assume you have a SSO object in global environment
+sso <- shinystan::eight_schools

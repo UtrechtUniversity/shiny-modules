@@ -1,0 +1,33 @@
+## Page Structures
+
+### Homepage
+
+Get a summary of all warnings on the homepage. 
+
+### Diagnostics
+
+Separate into HMC diagnostics and non-HMC diagnostics. Repeat modules arn't a problem.
+
+HMC diagnostics:
+
+* divergence transitions
+* parallel coords plots
+* Energy etc.
+ 
+Non-HMC diagnostics:
+
+* Rhat
+* nEff
+* ...
+
+## Code structures
+
+### What to work with?
+
+Always assume that in the global environment you have a [shinystan object](https://cran.r-project.org/web/packages/shinystan/shinystan.pdf). All manipulations are done with respect to this object. 
+
+### What to build with?
+
+Throughout shinystan we will build all separate pieces using [moduels](https://shiny.rstudio.com/articles/modules.html).
+
+
