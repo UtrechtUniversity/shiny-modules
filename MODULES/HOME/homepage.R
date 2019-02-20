@@ -25,7 +25,6 @@ homepageUI <- function(id){
             h4(sso@model_name))), #note this used to be .model_name
     br(), br(), br(), br(),
     # html used to be called, now directly in module
-    # note that the links do not work to these pages yet. need to fix that.
     HTML("
 <div id = 'links_nav_div'>
 <nav class='cl-effect-9' id='links_nav'>
@@ -60,16 +59,5 @@ homepageUI <- function(id){
 
 homepage <- function(input, output, session){
   # this module does not do anything on the server side.
-  # Link to pages from home page table of contents
   
-  # look in original server part to get this running.
-  # toc_entries <- c("Estimate", "Diagnose", "Explore", "Model Code")
-  # observe({
-  #   local({
-  #     lapply(toc_entries, function(x) {
-  #       id <- paste0("toc_", if (x == "Model Code") "more" else tolower(x))
-  #       shinyjs::onclick(id, updateTabsetPanel(session, "nav", selected = x))
-  #     })
-  #   })
-  # })
 }
