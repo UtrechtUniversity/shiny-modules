@@ -1,89 +1,70 @@
 diagnoseUI <- function(id){
   ns <- NS(id)
   
-  tabsetPanel(
-    id = "diagnose_tabset",
-    
-    #### hmc/nuts specific diagnostics ####
-    tabPanel(
-      title = "HMC diagnostics",
-      
-      # fixed input section of the HMC diagnostics page
-      wellPanel(
-        fluidRow(
-          column(width = 3, h4(textOutput("diagnostic_chain_text"))),
-          column(width = 4, h5("Parameter")),
-          column(width = 4, h5("Transformation"))
-        ),
-        fluidRow(
-          column(
-            width = 3, div(style = "width: 100px;",
-                           numericInput(
-                             "diagnostic_chain",
-                             label = NULL,
-                             value = 0,
-                             min = 0,
-                             # don't allow changing chains if only 1 chain
-                             max = ifelse(sso@n_chain == 1, 0, sso@n_chain)
-                           )
-            )),
-          column(
-            width = 4,
-            selectizeInput(
-              inputId = "diagnostic_param",
-              label = NULL,
-              multiple = FALSE,
-              choices = .param_list,
-              selected = .param_list[1]
-            )
-          )
-          # column(
-          #   width = 3,
-          #   transformation_selectInput("diagnostic_param_transform")
-          # ),
-          # column(
-          #   width = 2,
-          #   actionButton("diagnostic_param_transform_go", "Transform", class = "transform-go")
-          # )
-        )
+  tagList(
+    wellPanel(
+      fluidRow(
+        column(width = 3),
+        column(width = 4, h5("Parameter")),
+        column(width = 4, h5("Transformation"))
       ),
-      
-      
-      # different tabs
-      navlistPanel(
-        id = "diagnostics_navlist",
-        tabPanel(
-          "MODULE_x" 
-          # source_ui("diagnostics_by_parameter.R")
-        ),
-        tabPanel(
-          "MODULE_y" 
-        ),
-        well = FALSE,
-        widths = c(2, 10)
+      fluidRow(
+        column(
+          width = 3, div(style = "width: 100px;",
+                         numericInput(
+                           ns("diagnostic_chain"),
+                           label = NULL,
+                           value = 0,
+                           min = 0,
+                           # don't allow changing chains if only 1 chain
+                           max = ifelse(sso@n_chain == 1, 0, sso@n_chain)
+                         )
+          )),
+        column(
+          width = 4,
+          selectizeInput(
+            inputId = ns("diagnostic_param"),
+            label = NULL,
+            multiple = FALSE,
+            choices = sso@param_names,
+            selected = sso@param_names[1]
+          )
+        )
       )
     ),
-    
-    #### general diagnostics ####
-    tabPanel(
-      title = "Non-HMC diagnostics",
-      navlistPanel(
-        id = "diagnostics_navlist",
-        tabPanel(
-          "MODULE_x" 
-        ),
-        tabPanel(
-          "MODULE_y" 
-        ),
-        well = FALSE,
-        widths = c(2, 10)
+    tabsetPanel(
+      id = ns("diagnose_tabset"),
+      tabPanel(
+        title = "HMC diagnostics",
+        id = ns("HMC"),
+        navlistPanel(
+          id = ns("HMC_navlist"),
+          tabPanel(
+            title = "Divergent Transitions",
+            id = ns("divergentTransitionsTab"),
+            divergentTransitionsUI(ns("divergentTransitions"))
+          )
+        )
       )
     )
-    )
+  )
+  # 
+  # tabPanel(
+  #   title = "NUTS (plots)",
+  #   source_ui("diagnostics_customize.R"),
+  #   navlistPanel(
+  #     id = "diagnostics_navlist",
+  #     tabPanel(
+  #       "By model parameter", 
+  #       source_ui("diagnostics_by_parameter.R")
+  #     ),
+  
+  
 }
 
 diagnose <- function(input, output, session){
-  .param_list <- callModule(makeParamList, "makeParamList", sso = sso)
-  print(.param_list)
-  # this module does not do anything on the server side.
+  
+  # call module for divergent transitions, pass selection of variable
+  callModule(divergentTransitions, "divergentTransitions", pars = reactive(input$diagnostic_param))
+  
 }

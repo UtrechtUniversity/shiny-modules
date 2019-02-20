@@ -1,6 +1,14 @@
 makeParamListUI <- function(id){
   ns <- NS(id)
   
+        selectizeInput(
+          inputId = ns("diagnostic_param"),
+          label = NULL,
+          multiple = FALSE,
+          choices = ns(.param_list),
+          selected = ns(.param_list)[1]
+        )
+  
 }
 
 makeParamList <- function(input, output, session, sso){
