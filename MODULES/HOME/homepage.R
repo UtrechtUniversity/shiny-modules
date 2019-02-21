@@ -60,4 +60,24 @@ homepageUI <- function(id){
 homepage <- function(input, output, session){
   # this module does not do anything on the server side.
   
+  # lapply(sso@sampler_params, "[", , "divergent__") %>%
+  #   lapply(., as.data.frame) %>% 
+  #   lapply(., filter, row_number() == (1+sso@n_warmup):sso@n_iter) %>%
+  #   lapply(., function(x) x > 0 ) %>% lapply(., sum) %>% unlist(.) %>% sum(.) %>%
+  #   paste0(., " of ", (sso@n_iter-sso@n_warmup)*sso@n_chain, 
+  #          " iterations ended with a divergence (", 
+  #          round((./((sso@n_iter-sso@n_warmup)*sso@n_chain))*100,1),
+  #          "%).")
+  
+  # lapply(sso@sampler_params, "[", , "treedepth__") %>%
+  #   lapply(., as.data.frame) %>% 
+  #   lapply(., filter, row_number() == (1+sso@n_warmup):sso@n_iter) %>%
+  #   lapply(., function(x) x == sso@misc$max_td ) %>% lapply(., sum) %>% unlist(.) %>% sum(.) %>%
+  #   paste0(., " of ", (sso@n_iter-sso@n_warmup)*sso@n_chain, 
+  #          " iterations saturated the maximum tree depth of ", sso@misc$max_td, " (", 
+  #          round((./((sso@n_iter-sso@n_warmup)*sso@n_chain))*100,1),
+  #          "%).")
+  # 
+  
+  
 }

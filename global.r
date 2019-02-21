@@ -3,6 +3,7 @@ library(shiny)
 library(shinydashboard)
 library(rstan)
 library(bayesplot)
+library(dplyr)
 
 # load relevant modules
 
