@@ -1,14 +1,10 @@
 warningsUI <- function (id) {
   ns <- NS(id)
   
-  # div(
-  #   style = "background-color:lightblue",
-  #   align = "center",
-  #   textOutput(ns("warningMessage"))
-  # )
   fluidRow(
   uiOutput(ns("divergence")),
-  uiOutput(ns("treedepth"))
+  uiOutput(ns("treedepth")),
+  uiOutput(ns("energy"))
   )
   
 }
@@ -98,18 +94,69 @@ warnings <- function (input, output, session) {
   })
   
   
+  
+  check_energy_sso <- function(shinystan.object){
+    
+    energy <- lapply(sso@sampler_params, "[", , "energy__") %>%
+      lapply(., as.data.frame) %>% 
+      lapply(., filter, row_number() == (1 + sso@n_warmup):sso@n_iter) 
+    
+    EBFMIs <- c()
+    
+    for(chain in 1:sso@n_chain) {
+      EBFMIs[chain] <- apply(energy[[chain]], 2, function(x){
+        numer <- sum(diff(x)^2)/length(x)
+        denom <- var(x)
+        return(numer/denom)
+      })
+    }
+    
+    bad_chains <- which(EBFMIs < 0.2)
+    if (!length(bad_chains)) {
+      paste0("E-BFMI indicated no pathological behavior.")
+    }
+    else {
+      EBFMIsWarnings <- NULL
+      for(bad in bad_chains){
+        EBFMIsWarnings <- c(EBFMIsWarnings, 
+                            paste0("Chain ", bad, ": E-BFMI = ", EBFMIs[bad], ".\n"))
+      }
+      cat(paste0("E-BFMI indicated possible pathological behavior:\n", 
+                 paste(EBFMIsWarnings, collapse = "") ,
+                 "E-BFMI below 0.2 indicates you may need to reparameterize your model."), 
+          sep = "\n")
+    }
+    
+  }
+  
+  
+  output$warningMessageEnergy <- renderText({
+    
+    check_energy_sso(sso)
+    
+  })
+
+  
+  output$energy <- renderUI({
+    ns <- session$ns
+    
+    if(check_energy_sso(sso) != "E-BFMI indicated no pathological behavior.") {
+      div(
+        style = "background-color:red",
+        align = "center",
+        textOutput(ns("warningMessageEnergy"))
+      ) 
+    } else {
+      div(
+        style = "background-color:lightblue",
+        align = "center",
+        textOutput(ns("warningMessageEnergy"))
+      )
+    }
+  })
+  
+  
+  
 }
 
 
-
-# runApp(
-#   list(ui = fluidPage(
-#     uiOutput("tab")
-#   ),
-#   server = function(input, output, session){
-#     url <- a("Google Homepage", href="https://www.google.com/")
-#     output$tab <- renderUI({
-#       tagList("URL link:", url)
-#     })
-#   })
-# )
