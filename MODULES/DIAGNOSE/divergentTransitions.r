@@ -22,4 +22,5 @@ divergentTransitions <- function(input, output, session, pars){
     
   })
   
+  
 }

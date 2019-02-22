@@ -22,8 +22,10 @@ homepageUI <- function(id){
         div(id = "model-name",
             br(),
             h2("Model:"),
-            h4(sso@model_name))), #note this used to be .model_name
-    br(), br(), br(), br(),
+            h4(sso@model_name),
+            warningsUI(ns("warnings")))), #note this used to be .model_name
+    br(), br(),
+    br(), br(),
     # html used to be called, now directly in module
     HTML("
 <div id = 'links_nav_div'>
@@ -79,5 +81,6 @@ homepage <- function(input, output, session){
   #          "%).")
   # 
   
+  callModule(warnings, "warnings")
   
 }

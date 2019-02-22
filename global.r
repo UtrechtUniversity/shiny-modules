@@ -9,6 +9,7 @@ library(dplyr)
 
 # home tab
 source("MODULES/HOME/homepage.r")
+source("MODULES/HOME/warnings.r")
 
 # diagnoses tab
 source("MODULES/DIAGNOSE/diagnoseHomepage.r")
