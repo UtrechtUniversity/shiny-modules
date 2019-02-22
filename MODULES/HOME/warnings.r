@@ -157,6 +157,11 @@ warnings <- function (input, output, session) {
   
   
   
+  # sso@summary[, "n_eff"] / ((sso@n_iter- sso@n_warmup) * sso@n_chain) # should be over .1
+  # sso@summary[, "se_mean"] / sso@summary[, "sd"] # should be under .1
+  # sso@summary[, "Rhat"] # should be under 1.1
+  
+  
 }
 
 
