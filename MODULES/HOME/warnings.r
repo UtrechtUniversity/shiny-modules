@@ -2,10 +2,22 @@ warningsUI <- function (id) {
   ns <- NS(id)
   
   fluidRow(
-  uiOutput(ns("divergence")),
-  uiOutput(ns("treedepth")),
-  uiOutput(ns("energy")),
-  uiOutput(ns("n_eff"))
+    br(),
+    # HTML(paste0("<div style='background-color:gray; color:white; 
+    #               padding:5px; opacity:.3'>",
+    #             "HMC Specific Warnings", 
+    #             "</div>")),
+    uiOutput(ns("divergence")),
+    uiOutput(ns("treedepth")),
+    uiOutput(ns("energy")),
+    # HTML(paste0("<div style='background-color:gray; color:white; 
+    #               padding:5px; opacity:.3'>",
+    #             "General Warnings", 
+    #             "</div>")),
+    br(),
+    uiOutput(ns("n_eff")),
+    uiOutput(ns("se_mean")),
+    uiOutput(ns("rhat"))
   )
   
 }
@@ -125,12 +137,6 @@ warnings <- function (input, output, session) {
   
   output$n_eff <- renderUI({
     
-    # check_n_eff <- function(shinystan.object){
-    #   if(sum(sso@summary[, "n_eff"] / ((sso@n_iter- sso@n_warmup) * sso@n_chain) < .1) < 1){
-    #     paste0("No parameters have an effective sample size less than 10% of the total sample size.")
-    #   } else {
-    #   }
-    # }
    bad_n_eff <- rownames(sso@summary)[sso@summary[, "n_eff"] / ((sso@n_iter- sso@n_warmup) * sso@n_chain) < .1]
    n_effWarning <- paste("The following parameters have an effective sample size less than 10% of the total sample size:<br>",
                    paste(bad_n_eff, collapse = ", "))
@@ -138,7 +144,7 @@ warnings <- function (input, output, session) {
     if(sum(sso@summary[, "n_eff"] / ((sso@n_iter- sso@n_warmup) * sso@n_chain) < .1) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                 padding:5px; opacity:.3'>",
-                  n_effWarning, 
+                  "No parameters have an effective sample size less than 10% of the total sample size.", 
                   "</div>"))
     } else {
       HTML(paste0("<div style='background-color:red; color:white; 
@@ -146,9 +152,44 @@ warnings <- function (input, output, session) {
                   n_effWarning, "</div>"))
     }
   })
+
   
-  # sso@summary[, "se_mean"] / sso@summary[, "sd"] # should be under .1
-  # sso@summary[, "Rhat"] # should be under 1.1
+  output$se_mean <- renderUI({
+    
+    bad_se_mean <- rownames(sso@summary)[sso@summary[, "se_mean"] / sso@summary[, "sd"] > .1]
+    se_meanWarning <- paste("The following parameters have a Monte Carlo standard error greater than 10% of the posterior standard deviation:<br>",
+                          paste(bad_se_mean, collapse = ", "))
+    
+    if(sum((sso@summary[, "se_mean"] / sso@summary[, "sd"]) > .1) < 1){
+      HTML(paste0("<div style='background-color:lightblue; color:black; 
+                  padding:5px; opacity:.3'>",
+                  "No parameters have a standard error greater than 10% of the posterior standard deviation.", 
+                  "</div>"))
+    } else {
+      HTML(paste0("<div style='background-color:red; color:white; 
+                  padding:5px; opacity:.3'>",
+                  se_meanWarning, "</div>"))
+    }
+  })
+  
+  output$rhat <- renderUI({
+    
+    bad_rhat <- rownames(sso@summary)[sso@summary[, "Rhat"] > 1.1]
+    rhatWarning <- paste("The following parameters have an Rhat value above 1.1::<br>",
+                            paste(bad_rhat, collapse = ", "))
+    
+    if(sum(sso@summary[, "Rhat"] > 1.1) < 1){
+      HTML(paste0("<div style='background-color:lightblue; color:black; 
+                  padding:5px; opacity:.3'>",
+                  "No parameters have an Rhat value above 1.1.", 
+                  "</div>"))
+    } else {
+      HTML(paste0("<div style='background-color:red; color:white; 
+                  padding:5px; opacity:.3'>",
+                  rhatWarning, "</div>"))
+    }
+  })
+  #  # should be under 1.1
   
   
   
