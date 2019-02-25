@@ -78,6 +78,8 @@ diagnoseUI <- function(id){
 diagnose <- function(input, output, session){
   
   # call module for divergent transitions, pass selection of variable
-  callModule(divergentTransitions, "divergentTransitions", pars = reactive(input$diagnostic_param))
+  callModule(divergentTransitions, "divergentTransitions", 
+             pars = reactive(input$diagnostic_param),
+             chains = reactive(input$diagnostic_chain))
   
 }
