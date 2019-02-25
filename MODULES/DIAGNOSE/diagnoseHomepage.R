@@ -50,8 +50,9 @@ diagnoseUI <- function(id){
             divergentTransitionsUI(ns("divergentTransitions"))
           ),
           tabPanel(
-            title = "Energy",
-            id = ns("EnergyTab")
+            title = "Energy Information",
+            id = ns("EnergyTab"),
+            energyUI(ns("energy"))
           )
         )
       ), # end of HMC tabpanel
@@ -79,6 +80,9 @@ diagnose <- function(input, output, session){
   
   # call module for divergent transitions, pass selection of variable
   callModule(divergentTransitions, "divergentTransitions", 
+             pars = reactive(input$diagnostic_param),
+             chains = reactive(input$diagnostic_chain))
+  callModule(energy, "energy", 
              pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
   
