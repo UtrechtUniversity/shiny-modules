@@ -138,10 +138,11 @@ warnings <- function (input, output, session) {
   output$n_eff <- renderUI({
     
    bad_n_eff <- rownames(sso@summary)[sso@summary[, "n_eff"] / ((sso@n_iter- sso@n_warmup) * sso@n_chain) < .1]
+   bad_n_eff <- bad_n_eff[!is.na(bad_n_eff)]
    n_effWarning <- paste("The following parameters have an effective sample size less than 10% of the total sample size:<br>",
                    paste(bad_n_eff, collapse = ", "))
     
-    if(sum(sso@summary[, "n_eff"] / ((sso@n_iter- sso@n_warmup) * sso@n_chain) < .1) < 1){
+    if(length(bad_n_eff) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                 padding:5px; opacity:.3'>",
                   "No parameters have an effective sample size less than 10% of the total sample size.", 
@@ -157,10 +158,11 @@ warnings <- function (input, output, session) {
   output$se_mean <- renderUI({
     
     bad_se_mean <- rownames(sso@summary)[sso@summary[, "se_mean"] / sso@summary[, "sd"] > .1]
+    bad_se_mean <- bad_se_mean[!is.na(bad_se_mean)]
     se_meanWarning <- paste("The following parameters have a Monte Carlo standard error greater than 10% of the posterior standard deviation:<br>",
                           paste(bad_se_mean, collapse = ", "))
     
-    if(sum((sso@summary[, "se_mean"] / sso@summary[, "sd"]) > .1) < 1){
+    if(length(bad_se_mean) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
                   "No parameters have a standard error greater than 10% of the posterior standard deviation.", 
@@ -175,10 +177,11 @@ warnings <- function (input, output, session) {
   output$rhat <- renderUI({
     
     bad_rhat <- rownames(sso@summary)[sso@summary[, "Rhat"] > 1.1]
+    bad_rhat <- bad_rhat[!is.na(bad_rhat)]
     rhatWarning <- paste("The following parameters have an Rhat value above 1.1::<br>",
                             paste(bad_rhat, collapse = ", "))
     
-    if(sum(sso@summary[, "Rhat"] > 1.1) < 1){
+    if(length(bad_rhat) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
                   "No parameters have an Rhat value above 1.1.", 
