@@ -18,7 +18,7 @@ source("MODULES/DIAGNOSE/nonHMCdiagnostics.r")
 source("MODULES/DIAGNOSE/divergentTransitions.r")
 source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")
-
+source("MODULES/DIAGNOSE/chainPlot.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment
