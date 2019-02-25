@@ -7,9 +7,9 @@ warningsUI <- function (id) {
     #               padding:5px; opacity:.3'>",
     #             "HMC Specific Warnings", 
     #             "</div>")),
-    uiOutput(ns("divergence")),
-    uiOutput(ns("treedepth")),
-    uiOutput(ns("energy")),
+    if(sso@misc$stan_method == "sampling") uiOutput(ns("divergence")),
+    if(sso@misc$stan_method == "sampling") uiOutput(ns("treedepth")),
+    if(sso@misc$stan_method == "sampling") uiOutput(ns("energy")),
     # HTML(paste0("<div style='background-color:gray; color:white; 
     #               padding:5px; opacity:.3'>",
     #             "General Warnings", 

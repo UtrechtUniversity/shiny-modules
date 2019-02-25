@@ -93,5 +93,4 @@ diagnose <- function(input, output, session){
   callModule(treedepth, "treedepth", 
              pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
-  
 }
