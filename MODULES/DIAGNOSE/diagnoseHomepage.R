@@ -51,8 +51,13 @@ diagnoseUI <- function(id){
           ),
           tabPanel(
             title = "Energy Information",
-            id = ns("EnergyTab"),
+            id = ns("energyTab"),
             energyUI(ns("energy"))
+          ),
+          tabPanel(
+            title = "Treedepth Information",
+            id = ns("treedepthTab"),
+            treedepthUI(ns("treedepth"))
           )
         )
       ), # end of HMC tabpanel
@@ -83,6 +88,9 @@ diagnose <- function(input, output, session){
              pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
   callModule(energy, "energy", 
+             pars = reactive(input$diagnostic_param),
+             chains = reactive(input$diagnostic_chain))
+  callModule(treedepth, "treedepth", 
              pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
   

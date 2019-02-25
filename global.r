@@ -15,6 +15,7 @@ source("MODULES/HOME/warnings.r")
 source("MODULES/DIAGNOSE/diagnoseHomepage.r")
 source("MODULES/DIAGNOSE/divergentTransitions.r")
 source("MODULES/DIAGNOSE/energy.r")
+source("MODULES/DIAGNOSE/treedepth.r")
 
 
 # Example data and fit in global environment
