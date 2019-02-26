@@ -178,7 +178,7 @@ warnings <- function (input, output, session) {
     
     bad_rhat <- rownames(sso@summary)[sso@summary[, "Rhat"] > 1.1]
     bad_rhat <- bad_rhat[!is.na(bad_rhat)]
-    rhatWarning <- paste("The following parameters have an Rhat value above 1.1::<br>",
+    rhatWarning <- paste("The following parameters have an Rhat value above 1.1:<br>",
                             paste(bad_rhat, collapse = ", "))
     
     if(length(bad_rhat) < 1){
