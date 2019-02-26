@@ -19,6 +19,7 @@ source("MODULES/DIAGNOSE/divergentTransitions.r")
 source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")
 source("MODULES/DIAGNOSE/chainPlot.r")
+source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment

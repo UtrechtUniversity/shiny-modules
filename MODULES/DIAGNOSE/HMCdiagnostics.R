@@ -31,7 +31,7 @@ HMCdiagnosticsUI <- function(id){
             inputId = ns("diagnostic_param"),
             label = NULL,
             multiple = FALSE,
-            choices = sso@param_names,
+            choices = sso@param_names[-which(sso@param_names == "log-posterior")],
             selected = sso@param_names[1]
           )
         )
@@ -40,6 +40,7 @@ HMCdiagnosticsUI <- function(id){
     # The panel on the side for the HMC tab on top.
     navlistPanel(
       id = ns("HMC_navlist"),
+      "Visual Diagnostics",
       tabPanel(
         title = "Divergent Transitions",
         id = ns("divergentTransitionsTab"),
@@ -54,6 +55,15 @@ HMCdiagnosticsUI <- function(id){
         title = "Treedepth Information",
         id = ns("treedepthTab"),
         treedepthUI(ns("treedepth"))
+      ),
+      tabPanel(
+        title = "Step Size Information",
+        id = ns("stepSizeTab")
+      ),
+      "Numerical Diagnostics",
+      tabPanel(
+        title = "Summary of Sampler Parameters",
+        id = ns("numericalDiagnostics")
       )
     )
   )
