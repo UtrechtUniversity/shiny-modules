@@ -3,41 +3,34 @@ diagnoseUI <- function(id){
   ns <- NS(id)
   
   # encapsulate everything in taglist, see https://shiny.rstudio.com/articles/modules.html
-  # tagList(
-  #   tabsetPanel(
-  #     id = ns("diagnose_tabset"),
-  #     nonHMCdiagnosticsUI(ns("non-HMC")),
-  #     if(sso@misc$stan_method == "sampling") HMCdiagnosticsUI(ns("HMC"))
-  #   )
-  # )
-  uiOutput(ns("diagnoseHomepage"))
+  tagList(
+    uiOutput(ns("diagnoseHomepage"))
+  )
   
 }
 
 diagnose <- function(input, output, session){
   
-  callModule(nonHMCdiagnostics, "non-HMC")
-  callModule(HMCdiagnostics, "HMC")
+
+  if(sso@misc$stan_algorithm == "NUTS") callModule(visualHMC, "HMC")
+  if(sso@misc$stan_algorithm != "NUTS") callModule(MCMCUI, "MCMC")
   
   
-  if(sso@misc$stan_method == "sampling") {
+  if(sso@misc$stan_algorithm == "NUTS") {
     output$diagnoseHomepage <- renderUI({
-      
       tagList(
         tabsetPanel(
           id = session$ns("diagnose_tabset"),
-          HMCdiagnosticsUI(session$ns("HMC")),
-          nonHMCdiagnosticsUI(session$ns("non-HMC"))
+          visualHMCUI(session$ns("HMC"))
         )
       )
     })
   } else {
     output$diagnoseHomepage <- renderUI({
-      
       tagList(
         tabsetPanel(
           id = session$ns("diagnose_tabset"),
-          nonHMCdiagnosticsUI(session$ns("non-HMC"))
+          visualMCMCUI(session$ns("MCMC"))
         )
       )
     })

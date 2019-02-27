@@ -1,12 +1,13 @@
-nonHMCdiagnosticsUI <- function(id){
+visualMCMCUI <- function(id){
   # for internal namespace structure
   ns <- NS(id)
   
   tabPanel(
-    title = "non-HMC specific",
-    id = ns("non-HMC"),
+    title = "Visual",
+    id = ns("visualHMC"),
     navlistPanel(
-      id = ns("non-HMC_navlist"),
+      id = ns("MCMC_navlist"),
+      "MCMC",
       tabPanel(
         title = "Trace Plots",
         id = ns("chainTab"),
@@ -24,14 +25,13 @@ nonHMCdiagnosticsUI <- function(id){
       )
     )
   )
-  
 }
 
 
 
 
-nonHMCdiagnostics <- function(input, output, session){
-
+visualMCMC <- function(input, output, session){
+  
   callModule(chainPlot, "chainPlot")  
   callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
   callModule(autoCorrelation, "autoCorrelation")

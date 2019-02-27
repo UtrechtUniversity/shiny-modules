@@ -14,14 +14,14 @@ source("MODULES/HOME/warnings.r")
 # diagnoses tab
 source("MODULES/DIAGNOSE/diagnoseHomepage.r")
 
-source("MODULES/DIAGNOSE/HMCdiagnostics.r")
+source("MODULES/DIAGNOSE/visualHMC.r")
+source("MODULES/DIAGNOSE/visualMCMC.r")
 source("MODULES/DIAGNOSE/divergentTransitions.r")
 source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")
 source("MODULES/DIAGNOSE/stepSize.r")
 source("MODULES/DIAGNOSE/parallelCoordinates.r")
 
-source("MODULES/DIAGNOSE/nonHMCdiagnostics.r")
 source("MODULES/DIAGNOSE/chainPlot.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")
 source("MODULES/DIAGNOSE/autoCorrelation.r")
