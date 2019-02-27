@@ -47,24 +47,31 @@ chainPlot <- function(input, output, session){
     chain <- reactive(input$diagnostic_chain)
     param <- reactive(input$diagnostic_param)
     color_scheme_set("mix-blue-pink")
-    mcmc_trace( if(chain() != 0) {
-      sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]
-    } else {
-      sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ]
-    }, pars = param(),
-    np = if(chain() != 0){
-      nuts_params(list(sso@sampler_params[[chain()]]) %>%
-                    lapply(., as.data.frame) %>%
-                    lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
-                    lapply(., as.matrix))
-    } else {
-      nuts_params(sso@sampler_params %>%
-                    lapply(., as.data.frame) %>%
-                    lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
-                    lapply(., as.matrix))
-    }
-    )
     
+    if(sso@misc$stan_method == "sampling"){
+      mcmc_trace( if(chain() != 0) {
+        sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]
+      } else {
+        sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ]
+      }, pars = param(),
+      np = if(chain() != 0){
+        nuts_params(list(sso@sampler_params[[chain()]]) %>%
+                      lapply(., as.data.frame) %>%
+                      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+                      lapply(., as.matrix))
+      } else {
+        nuts_params(sso@sampler_params %>%
+                      lapply(., as.data.frame) %>%
+                      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+                      lapply(., as.matrix))
+      }
+      )} else {
+        mcmc_trace( if(chain() != 0) {
+          sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain, ]
+        } else {
+          sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ]
+        }, pars = param()) 
+      }
   })
   
 }

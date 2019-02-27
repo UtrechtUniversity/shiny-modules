@@ -30,6 +30,7 @@ source("MODULES/DIAGNOSE/autoCorrelation.r")
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment
 sso <- shinystan::eight_schools
+# sso <- readRDS("TEST MODELS/eight_schools_meanfield.rds")
 # test different models
 # sso <- readRDS("TEST MODELS/stan_demo_model_473_method_sampling.rds")
 # sso <- readRDS("TEST MODELS/stan_demo_model_99_method_sampling.rds")
