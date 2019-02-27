@@ -42,6 +42,11 @@ HMCdiagnosticsUI <- function(id){
       id = ns("HMC_navlist"),
       "Visual Diagnostics",
       tabPanel(
+        title = "Parallel Coordinates",
+        id = ns("parallelCoordinatesTab"),
+        parallelCoordinatesUI(ns("parallelCoordinates"))
+      ),
+      tabPanel(
         title = "Divergent Transitions",
         id = ns("divergentTransitionsTab"),
         divergentTransitionsUI(ns("divergentTransitions"))
@@ -58,7 +63,8 @@ HMCdiagnosticsUI <- function(id){
       ),
       tabPanel(
         title = "Step Size Information",
-        id = ns("stepSizeTab")
+        id = ns("stepSizeTab"),
+        stepSizeUI(ns("stepSize"))
       ),
       "Numerical Diagnostics",
       tabPanel(
@@ -75,15 +81,15 @@ HMCdiagnosticsUI <- function(id){
 
 HMCdiagnostics <- function(input, output, session){
   
-  # call module for divergent transitions, pass selection of variable
+  callModule(parallelCoordinates, "parallelCoordinates",
+             chains = reactive(input$diagnostic_chain))
   callModule(divergentTransitions, "divergentTransitions", 
              pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
   callModule(energy, "energy", 
-             pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
   callModule(treedepth, "treedepth", 
-             pars = reactive(input$diagnostic_param),
              chains = reactive(input$diagnostic_chain))
-  
+  callModule(stepSize, "stepSize", 
+             chains = reactive(input$diagnostic_chain))
 }

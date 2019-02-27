@@ -19,7 +19,8 @@ nonHMCdiagnosticsUI <- function(id){
       ),
       tabPanel(
         title = "Autocorrelation",
-        id = ns("autocorrelationTab")
+        id = ns("autocorrelationTab"),
+        autoCorrelationUI(ns("autoCorrelation"))
       )
     )
   )
@@ -33,4 +34,5 @@ nonHMCdiagnostics <- function(input, output, session){
 
   callModule(chainPlot, "chainPlot")  
   callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
+  callModule(autoCorrelation, "autoCorrelation")
 }

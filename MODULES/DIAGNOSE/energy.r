@@ -5,7 +5,7 @@ energyUI <- function(id){
 }
 
 
-energy <- function(input, output, session, pars, chains){
+energy <- function(input, output, session, chains){
   
   output$plot1 <- renderPlot({
     

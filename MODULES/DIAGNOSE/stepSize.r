@@ -1,11 +1,11 @@
-treedepthUI <- function(id){
+stepSizeUI <- function(id){
   ns <- NS(id)
   
   plotOutput(ns("plot1"))
 }
 
 
-treedepth <- function(input, output, session, chains){
+stepSize <- function(input, output, session, chains){
   
   output$plot1 <- renderPlot({
     
@@ -13,7 +13,7 @@ treedepth <- function(input, output, session, chains){
     color_scheme_set("blue")
     
       if(chain != 0) {
-        mcmc_nuts_treedepth(
+        mcmc_nuts_stepsize(
         x = nuts_params(list(sso@sampler_params[[chain]]) %>%
                           lapply(., as.data.frame) %>%
                           lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
@@ -23,7 +23,7 @@ treedepth <- function(input, output, session, chains){
                         Chain = rep(chain, each = (sso@n_iter - sso@n_warmup))) 
         )
       } else {
-        mcmc_nuts_treedepth(
+        mcmc_nuts_stepsize(
         x = nuts_params(sso@sampler_params %>%
                           lapply(., as.data.frame) %>%
                           lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
