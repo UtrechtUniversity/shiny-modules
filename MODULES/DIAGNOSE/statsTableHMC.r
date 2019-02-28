@@ -4,22 +4,25 @@ statsTableHMCUI <- function(id){
   tagList(
     wellPanel(
       fluidRow(
+        column(width = 3, h5("Warmup")),
+        column(width = 4, h5("Statistic")),
+        column(width = 4, h5("Decimals"))
+      ),
+      fluidRow(
         column(
           width = 3,
-          numericInput(
-            ns("sampler_digits"),
-            label = h5("Decimals"),
-            value = 4,
-            min = 0,
-            max = 10,
-            step = 1
+          radioButtons(
+            ns("sampler_warmup"),
+            label = NULL,
+            choices = list(Omit = "omit", Include = "include"),
+            inline = TRUE
           )
         ),
         column(
           width = 4,
           radioButtons(
             ns("sampler_report"),
-            label = h5("Statistic"),
+            label = NULL,
             choices = list(
               Mean = "average",
               SD = "sd",
@@ -28,14 +31,15 @@ statsTableHMCUI <- function(id){
             ),
             inline = TRUE
           )
-        ),
-        column(
+        ),column(
           width = 4,
-          radioButtons(
-            ns("sampler_warmup"),
-            label = h5("Warmup"),
-            choices = list(Omit = "omit", Include = "include"),
-            inline = TRUE
+          numericInput(
+            ns("sampler_digits"),
+            label = NULL,
+            value = 4,
+            min = 0,
+            max = 10,
+            step = 1
           )
         )
       )

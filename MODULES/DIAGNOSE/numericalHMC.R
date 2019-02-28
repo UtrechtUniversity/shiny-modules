@@ -17,11 +17,12 @@ numericalHMCUI <- function(id){
         tabPanel(
           title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
           id = ns("rhat_n_eff_se_meanTab"),
-          statsTableMCMCUI(ns("statsTableMCMC"))
+          rhat_n_eff_se_mean_statsUI(ns("rhat_n_eff_se_mean_stats"))
         ),
         tabPanel(
           title = "Autocorrelation",
-          id = ns("autocorrelationTab")
+          id = ns("autocorrelationTab"),
+          autoCorrelationStatsUI(ns("autoCorrelationStats"))
         )
       )
     )
@@ -33,5 +34,6 @@ numericalHMCUI <- function(id){
 numericalHMC <- function(input, output, session){
   
   callModule(statsTableHMC, "statsTableHMC")
-  callModule(statsTableMCMC, "statsTableMCMC")
+  callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
+  callModule(autoCorrelationStats, "autoCorrelationStats")
 }
