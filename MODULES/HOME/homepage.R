@@ -22,10 +22,10 @@ homepageUI <- function(id){
         div(id = "model-name",
             br(),
             h2("Model:"),
-            h4(sso@model_name))), #note this used to be .model_name
-    br(), br(), br(), br(),
+            h4(sso@model_name),
+            warningsUI(ns("warnings")))), #note this used to be .model_name
+    br(), br(),
     # html used to be called, now directly in module
-    # note that the links do not work to these pages yet. need to fix that.
     HTML("
 <div id = 'links_nav_div'>
 <nav class='cl-effect-9' id='links_nav'>
@@ -60,16 +60,26 @@ homepageUI <- function(id){
 
 homepage <- function(input, output, session){
   # this module does not do anything on the server side.
-  # Link to pages from home page table of contents
   
-  # look in original server part to get this running.
-  # toc_entries <- c("Estimate", "Diagnose", "Explore", "Model Code")
-  # observe({
-  #   local({
-  #     lapply(toc_entries, function(x) {
-  #       id <- paste0("toc_", if (x == "Model Code") "more" else tolower(x))
-  #       shinyjs::onclick(id, updateTabsetPanel(session, "nav", selected = x))
-  #     })
-  #   })
-  # })
+  # lapply(sso@sampler_params, "[", , "divergent__") %>%
+  #   lapply(., as.data.frame) %>% 
+  #   lapply(., filter, row_number() == (1+sso@n_warmup):sso@n_iter) %>%
+  #   lapply(., function(x) x > 0 ) %>% lapply(., sum) %>% unlist(.) %>% sum(.) %>%
+  #   paste0(., " of ", (sso@n_iter-sso@n_warmup)*sso@n_chain, 
+  #          " iterations ended with a divergence (", 
+  #          round((./((sso@n_iter-sso@n_warmup)*sso@n_chain))*100,1),
+  #          "%).")
+  
+  # lapply(sso@sampler_params, "[", , "treedepth__") %>%
+  #   lapply(., as.data.frame) %>% 
+  #   lapply(., filter, row_number() == (1+sso@n_warmup):sso@n_iter) %>%
+  #   lapply(., function(x) x == sso@misc$max_td ) %>% lapply(., sum) %>% unlist(.) %>% sum(.) %>%
+  #   paste0(., " of ", (sso@n_iter-sso@n_warmup)*sso@n_chain, 
+  #          " iterations saturated the maximum tree depth of ", sso@misc$max_td, " (", 
+  #          round((./((sso@n_iter-sso@n_warmup)*sso@n_chain))*100,1),
+  #          "%).")
+  # 
+  
+  callModule(warnings, "warnings")
+  
 }
