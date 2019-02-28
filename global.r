@@ -29,6 +29,8 @@ source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")
 source("MODULES/DIAGNOSE/autoCorrelation.r")
 
 source("MODULES/DIAGNOSE/numericalHMC.r")
+source("MODULES/DIAGNOSE/statsTableHMC.r")
+source("MODULES/DIAGNOSE/statsTableMCMC.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment

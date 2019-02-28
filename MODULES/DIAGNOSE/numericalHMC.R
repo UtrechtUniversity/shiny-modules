@@ -7,11 +7,22 @@ numericalHMCUI <- function(id){
       id = ns("numericalHMC"),
       navlistPanel(
         id = ns("HMC_navlist"),
-        "Numerical",
+        "NUTS/HMC",
         tabPanel(
-          title = "Get me some numbers",
-          id = ns("numericalTab")
-        ) 
+          title = "All NUTS/HMC stats",
+          id = ns("HMCstatTab"),
+          statsTableHMCUI(ns("statsTableHMC"))
+        ),
+        "MCMC",
+        tabPanel(
+          title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
+          id = ns("rhat_n_eff_se_meanTab"),
+          statsTableMCMCUI(ns("statsTableMCMC"))
+        ),
+        tabPanel(
+          title = "Autocorrelation",
+          id = ns("autocorrelationTab")
+        )
       )
     )
 }
@@ -21,5 +32,6 @@ numericalHMCUI <- function(id){
 
 numericalHMC <- function(input, output, session){
   
-  
+  callModule(statsTableHMC, "statsTableHMC")
+  callModule(statsTableMCMC, "statsTableMCMC")
 }

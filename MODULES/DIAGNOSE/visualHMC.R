@@ -41,7 +41,7 @@ visualHMCUI <- function(id){
       ),
       tabPanel(
         title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
-        id = ns("rhat_n_eff_se_mean"),
+        id = ns("rhat_n_eff_se_meanTab"),
         rhat_n_eff_se_meanUI(ns("rhat_n_eff_se_mean"))
       ),
       tabPanel(

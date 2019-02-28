@@ -1,7 +1,8 @@
 ## Questions / notes
 
   * SSO object from Matrix loses `sso@misc$stan_method` & `sso@misc$stan_algorithm` this causes crash of app!
-
+  * check validate for visual stuff to not get 3 modules but 1 with conditions
+  * make stats tab MCMC into seperate rhat etc. and separate autocorrelation
 
 
 
