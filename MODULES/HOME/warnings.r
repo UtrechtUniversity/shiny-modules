@@ -7,17 +7,17 @@ warningsUI <- function (id) {
     #               padding:5px; opacity:.3'>",
     #             "HMC Specific Warnings", 
     #             "</div>")),
-    if(sso@misc$stan_method == "sampling") uiOutput(ns("divergence")),
-    if(sso@misc$stan_method == "sampling") uiOutput(ns("treedepth")),
-    if(sso@misc$stan_method == "sampling") uiOutput(ns("energy")),
+    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS") uiOutput(ns("divergence")),
+    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS") uiOutput(ns("treedepth")),
+    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS") uiOutput(ns("energy")),
     # HTML(paste0("<div style='background-color:gray; color:white; 
     #               padding:5px; opacity:.3'>",
     #             "General Warnings", 
     #             "</div>")),
     br(),
-    uiOutput(ns("n_eff")),
-    uiOutput(ns("se_mean")),
-    uiOutput(ns("rhat"))
+    if(sso@misc$stan_method == "sampling") uiOutput(ns("n_eff")),
+    if(sso@misc$stan_method == "sampling") uiOutput(ns("se_mean")),
+    if(sso@misc$stan_method == "sampling") uiOutput(ns("rhat"))
   )
   
 }

@@ -1,17 +1,6 @@
-## Questions
+## Questions / notes
 
-  * Are Rhat / etc not applicable to variational inference (vi only has 1 chain always?)
-  * internal functions structure bayesplot
-    - inlcuding for making plot for SE mean
-    - how to access them? 
-    - how are they being used by bayesplot?
-  * parallelCoordinates plot, slow but as first? 
-  * maybe bring chains option into sidebar
-    - than wellpanel could be inside of tabUI's for
-        - divergences (single)
-        - chainplot (multiple)
-        - autocorrelation (multiple)
-  
+  * SSO object from Matrix loses `sso@misc$stan_method` & `sso@misc$stan_algorithm` this causes crash of app!
 
 
 

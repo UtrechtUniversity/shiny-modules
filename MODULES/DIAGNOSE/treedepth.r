@@ -5,8 +5,8 @@ treedepthUI <- function(id){
   wellPanel(
     fluidRow(
       column(width = 3, h5(textOutput(ns("diagnostic_chain_text")))), 
-      column(width = 4, h5("Parameter")),
-      column(width = 4, h5("Transformation"))
+      column(width = 4),
+      column(width = 4)
     ),
     fluidRow(
       column(
@@ -21,14 +21,7 @@ treedepthUI <- function(id){
                        )
         )),
       column(
-        width = 4,
-        selectizeInput(
-          inputId = ns("diagnostic_param"),
-          label = NULL,
-          multiple = FALSE,
-          choices = sso@param_names[-which(sso@param_names == "log-posterior")],
-          selected = sso@param_names[1]
-        )
+        width = 4
       )
     )
   ),

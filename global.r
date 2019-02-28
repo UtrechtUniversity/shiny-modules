@@ -16,6 +16,8 @@ source("MODULES/DIAGNOSE/diagnoseHomepage.r")
 
 source("MODULES/DIAGNOSE/visualHMC.r")
 source("MODULES/DIAGNOSE/visualMCMC.r")
+source("MODULES/DIAGNOSE/visualVI.r")
+
 source("MODULES/DIAGNOSE/divergentTransitions.r")
 source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")

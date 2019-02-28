@@ -4,9 +4,9 @@ autoCorrelationUI <- function(id){
   tagList(
     wellPanel(
       fluidRow(
-        column(width = 3),
+        column(width = 3, h5(textOutput(ns("diagnostic_chain_text")))),
         column(width = 4, h5("Parameter")),
-        column(width = 4, h5("Transformation"))
+        column(width = 4)
       ),
       fluidRow(
         column(
@@ -41,11 +41,18 @@ autoCorrelationUI <- function(id){
 
 
 autoCorrelation <- function(input, output, session){
+
+  chain <- reactive(input$diagnostic_chain)
+  param <- reactive(input$diagnostic_param)
+  
+  output$diagnostic_chain_text <- renderText({
+    if (chain() == 0)
+      return("All chains")
+    paste("Chain", chain())
+  })
   
   output$plot1 <- renderPlot({
     
-    chain <- reactive(input$diagnostic_chain)
-    param <- reactive(input$diagnostic_param)
     color_scheme_set("blue")
     mcmc_acf( if(chain() != 0) {
       sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]

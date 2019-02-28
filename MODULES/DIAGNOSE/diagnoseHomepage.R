@@ -13,8 +13,8 @@ diagnose <- function(input, output, session){
   
 
   if(sso@misc$stan_algorithm == "NUTS") callModule(visualHMC, "HMC")
-  if(sso@misc$stan_algorithm != "NUTS") callModule(MCMCUI, "MCMC")
-  
+  if(sso@misc$stan_algorithm != "NUTS" & sso@misc$stan_method == "sampling") callModule(visualMCMC, "MCMC")
+  if(sso@misc$stan_method == "variational") callModule(visualVI, "VI")
   
   if(sso@misc$stan_algorithm == "NUTS") {
     output$diagnoseHomepage <- renderUI({
@@ -26,6 +26,8 @@ diagnose <- function(input, output, session){
       )
     })
   } else {
+    
+  if(sso@misc$stan_algorithm != "NUTS" & sso@misc$stan_method == "sampling") {
     output$diagnoseHomepage <- renderUI({
       tagList(
         tabsetPanel(
@@ -34,6 +36,26 @@ diagnose <- function(input, output, session){
         )
       )
     })
+  } else {
+    if(sso@misc$stan_method == "variational") {
+      output$diagnoseHomepage <- renderUI({
+        tagList(
+          tabsetPanel(
+            id = session$ns("diagnose_tabset"),
+            visualVIUI(session$ns("VI"))
+          )
+        )
+      })
+    } else {
+      output$diagnoseHomepage <- renderUI({
+        tagList(
+          tabsetPanel(
+            id = session$ns("diagnose_tabset")
+          )
+        )
+      })
+    }
   }
-  
+    
+  }
 }
