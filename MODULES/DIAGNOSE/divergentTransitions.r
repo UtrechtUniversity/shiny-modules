@@ -54,7 +54,9 @@ divergentTransitions <- function(input, output, session){
   output$plot1 <- renderPlot({
     
     color_scheme_set("darkgray")
-    if(length(param()) == 2) {
+    validate(
+      need(length(param()) == 2, "Select two parameters.")
+      )
     mcmc_scatter(
       if(chain() != 0) {
         sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]
@@ -76,6 +78,5 @@ divergentTransitions <- function(input, output, session){
       },
       np_style = scatter_style_np(div_color = "green", div_alpha = 0.8)
     )
-    }
   })
 }

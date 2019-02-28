@@ -41,7 +41,8 @@ tagList(
     #### ESTIMATE ####
     tabPanel(
       title = "Estimate",
-      icon = icon("stats", lib = "glyphicon")
+      icon = icon("stats", lib = "glyphicon"),
+      estimateUI("estimateHomepage")
       # withMathJax()
       # source_ui("PAGE_estimate.R")
     ),

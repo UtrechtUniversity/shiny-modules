@@ -33,6 +33,11 @@ source("MODULES/DIAGNOSE/statsTableHMC.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean_stats.r")
 source("MODULES/DIAGNOSE/autoCorrelationStats.r")
 
+# estimate tab
+source("MODULES/ESTIMATE/estimateHomepage.r")
+
+source("MODULES/ESTIMATE/visualEstimate.r")
+source("MODULES/ESTIMATE/numericalEstimate.r")
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment
 sso <- shinystan::eight_schools

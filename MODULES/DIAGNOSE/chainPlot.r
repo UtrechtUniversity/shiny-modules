@@ -54,7 +54,9 @@ chainPlot <- function(input, output, session){
   output$plot1 <- renderPlot({
     
     color_scheme_set("mix-blue-pink")
-    
+    validate(
+      need(length(param()) > 0, "Select at least one parameter.")
+    )
     if(sso@misc$stan_method == "sampling"){
       mcmc_trace( if(chain() != 0) {
         sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]

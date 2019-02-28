@@ -26,6 +26,8 @@ server <- function(input, output, session) {
   callModule(homepage, "homepage")
   # diagnose tab
   callModule(diagnose, "diagnoseHomepage")
+  # estimate tab
+  callModule(estimate, "estimateHomepage")
   
 }
 

@@ -54,6 +54,9 @@ autoCorrelation <- function(input, output, session){
   output$plot1 <- renderPlot({
     
     color_scheme_set("blue")
+    validate(
+      need(length(param()) > 0, "Select at least one parameter.")
+    )
     mcmc_acf( if(chain() != 0) {
       sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]
     } else {
