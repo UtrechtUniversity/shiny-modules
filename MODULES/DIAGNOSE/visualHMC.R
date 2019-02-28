@@ -3,7 +3,7 @@ visualHMCUI <- function(id){
   ns <- NS(id)
   
   tabPanel(
-    title = "Visual",
+    title = "Plots",
     id = ns("visualHMC"),
     navlistPanel(
       id = ns("HMC_navlist"),
