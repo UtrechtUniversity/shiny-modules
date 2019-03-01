@@ -18,6 +18,10 @@ histogramPlotUI <- function(id){
             choices = sso@param_names,
             selected = c(sso@param_names[1])
           )
+        ),
+        column(
+          width = 4,
+          uiOutput(ns("transform"))
         )
       )
     ),
@@ -28,7 +32,33 @@ histogramPlotUI <- function(id){
 
 histogramPlot <- function(input, output, session){
   
+  
+  output$transform <- renderUI({
+    
+    inverse <- function(x) 1/x
+    cloglog <- function(x) log(-log1p(-x))
+    square <- function(x) x^2
+    
+    transformation_choices <- c(
+      "abs", "atanh",
+      cauchit = "pcauchy", "cloglog",
+      "exp", "expm1",
+      "identity", "inverse", inv_logit = "plogis",
+      "log", "log10", "log2", "log1p", logit = "qlogis",
+      probit = "pnorm", "square", "sqrt"
+    )
+    
+    selectInput(
+      inputId = session$ns("transformation"),
+      label = NULL,
+      choices = transformation_choices,
+      selected = "identity"
+    )
+    
+  })
+  
   param <- reactive(input$diagnostic_param)
+  transform <- reactive(input$transformation)
   
   output$plot1 <- renderPlot({
     
@@ -38,7 +68,8 @@ histogramPlot <- function(input, output, session){
     )
     mcmc_hist(
       sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ],
-      pars = param()
+      pars = param(),
+      transformations = transform()
     )
   })
 }

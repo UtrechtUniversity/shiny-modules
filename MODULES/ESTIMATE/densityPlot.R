@@ -57,8 +57,6 @@ densityPlot <- function(input, output, session){
     
   })
   
-  
-  
   param <- reactive(input$diagnostic_param)
   transform <- reactive(input$transformation)
   
