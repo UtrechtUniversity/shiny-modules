@@ -23,6 +23,7 @@ source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")
 source("MODULES/DIAGNOSE/stepSize.r")
 source("MODULES/DIAGNOSE/parallelCoordinates.r")
+source("MODULES/DIAGNOSE/acceptance.r")
 
 source("MODULES/DIAGNOSE/chainPlot.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")

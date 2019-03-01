@@ -33,6 +33,11 @@ visualHMCUI <- function(id){
         id = ns("stepSizeTab"),
         stepSizeUI(ns("stepSize"))
       ),
+      tabPanel(
+        title = "Acceptance",
+        id = ns("acceptanceTab"),
+        acceptanceUI(ns("acceptance"))
+      ),
       "MCMC",
       tabPanel(
         title = "Trace Plots",
@@ -63,6 +68,7 @@ visualHMC <- function(input, output, session){
   callModule(energy, "energy")
   callModule(treedepth, "treedepth")
   callModule(stepSize, "stepSize")
+  callModule(acceptance, "acceptance")
   
   callModule(chainPlot, "chainPlot")  
   callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
