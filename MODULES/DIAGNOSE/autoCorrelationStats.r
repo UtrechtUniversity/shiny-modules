@@ -100,6 +100,9 @@ autoCorrelationStats <- function(input, output, session){
   
   
   output$sampler_summary <- DT::renderDataTable({
+    validate(
+      need(length(param()) > 0, "Select at least one parameter.")
+    )
     DT::datatable({
       autocorrelationTable() 
     }, options = list(

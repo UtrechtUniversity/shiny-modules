@@ -23,6 +23,7 @@ source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")
 source("MODULES/DIAGNOSE/stepSize.r")
 source("MODULES/DIAGNOSE/parallelCoordinates.r")
+source("MODULES/DIAGNOSE/acceptance.r")
 
 source("MODULES/DIAGNOSE/chainPlot.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")
@@ -32,6 +33,25 @@ source("MODULES/DIAGNOSE/numericalHMC.r")
 source("MODULES/DIAGNOSE/statsTableHMC.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean_stats.r")
 source("MODULES/DIAGNOSE/autoCorrelationStats.r")
+
+# estimate tab
+source("MODULES/ESTIMATE/estimateHomepage.r")
+
+source("MODULES/ESTIMATE/visualEstimate.r")
+source("MODULES/ESTIMATE/scatterPlot.r")
+source("MODULES/ESTIMATE/densityPlot.r")
+source("MODULES/ESTIMATE/histogramPlot.r")
+source("MODULES/ESTIMATE/intervalsPlot.r")
+source("MODULES/ESTIMATE/areasPlot.r")
+
+source("MODULES/ESTIMATE/numericalEstimate.r")
+source("MODULES/ESTIMATE/summaryTable.r")
+
+# more tab
+source("MODULES/MORE/about.r")
+source("MODULES/MORE/modelCode.r")
+source("MODULES/MORE/help.r")
+source("MODULES/MORE/glossary.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment
