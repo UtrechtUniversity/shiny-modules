@@ -35,7 +35,6 @@ tagList(
       title = "Diagnose",
       icon = icon("medkit"),
       diagnoseUI("diagnoseHomepage")
-      # source_ui("PAGE_diagnose.R")
     ),
     
     #### ESTIMATE ####
@@ -43,19 +42,34 @@ tagList(
       title = "Estimate",
       icon = icon("stats", lib = "glyphicon"),
       estimateUI("estimateHomepage")
-      # withMathJax()
-      # source_ui("PAGE_estimate.R")
     ),
-    
-    #### EXPLORE ####
-    tabPanel(
-      title = "Explore",
-      icon = icon("eye-open", lib = "glyphicon")
-      # source_ui("PAGE_explore.R")
+    navbarMenu(
+      title = "More",
+      
+      #### model code ####
+      tabPanel(
+        title = "Model Code",
+        modelCodeUI("modelCode")
+      ),
+      
+      #### about ####
+      tabPanel(
+        title = "About",
+        aboutUI(ns("about"))
+      ),
+      
+      #### glossary ####
+      tabPanel(
+        title = "Glossary",
+        glossaryUI(ns("glossary"))
+      ),
+      
+      #### help ####
+      tabPanel(
+        title = "Help",
+        helpUI(ns("help"))
     )
-    
-    #### More ####
-    # source_ui("PAGE_more_menu.R")
+    )
     
   ) # End navbarPage
 ) # End tagList

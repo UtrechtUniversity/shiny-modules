@@ -46,17 +46,24 @@ summaryTable <- function(input, output, session){
   
   summaryStats <- reactive({
     
+    remove.colums <- if(sso@misc$stan_method == "sampling"){
+      c(which(colnames(sso@summary) == "Rhat"), which(colnames(sso@summary) == "n_eff"))
+    } else {
+      c(which(colnames(sso@summary) == "Rhat"), which(colnames(sso@summary) == "n_eff"),
+        which(colnames(sso@summary) == "se_mean"))
+    }
+    
     if(length(param()) == 1){
       
-      out <- sso@summary[param(), -c(9, 10)]
+      out <- sso@summary[param(), -remove.colums]
       out <- matrix(out, nrow = 1)
       rownames(out) <- param()
-      colnames(out) <- colnames(sso@summary)[-c(9,10)]
+      colnames(out) <- colnames(sso@summary)[-remove.colums]
       out <- formatC(round(out, digits()), format = 'f', digits = digits())
       out
       
     } else {
-      out <- sso@summary[param(), -c(9, 10)]
+      out <- sso@summary[param(), -remove.colums]
       out <- formatC(round(out, digits()), format = 'f', digits = digits())
       out
     }

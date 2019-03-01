@@ -46,6 +46,11 @@ source("MODULES/ESTIMATE/areasPlot.r")
 source("MODULES/ESTIMATE/numericalEstimate.r")
 source("MODULES/ESTIMATE/summaryTable.r")
 
+# more tab
+source("MODULES/MORE/about.r")
+source("MODULES/MORE/modelCode.r")
+source("MODULES/MORE/help.r")
+source("MODULES/MORE/glossary.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment

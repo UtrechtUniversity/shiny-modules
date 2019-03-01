@@ -28,6 +28,10 @@ server <- function(input, output, session) {
   callModule(diagnose, "diagnoseHomepage")
   # estimate tab
   callModule(estimate, "estimateHomepage")
-  
+  # about tab
+  callModule(about, "about")
+  callModule(modelCode, "modelCode")
+  callModule(help, "help")
+  callModule(glossary, "glossary")
 }
 

@@ -38,18 +38,12 @@ homepageUI <- function(id){
   
   <a id = 'toc_estimate' href='#cl-effect-9'>
     <span>Estimate</span>
-    <span>Multiparameter plots<span>& posterior summary statistics</span>
-    </span>
-  </a>
-  
-  <a id = 'toc_explore' href='#cl-effect-9'>
-    <span>Explore</span>
-    <span>Transform and compare<span> parameters in 2D or 3D</span>
+    <span>Multiparameter Plots<span>& Posterior Summary Statistics</span>
     </span>
   </a>
   
   <a id = 'toc_more' href='#cl-effect-9'>
-    <span>More</span><span>Model code, notes<span>& glossary</span>
+    <span>More</span><span>Model Code, Glossary <span>& Help</span>
     </span>
   </a>
   
