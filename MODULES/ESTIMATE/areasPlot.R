@@ -3,12 +3,19 @@ areasPlotUI <- function(id){
   tagList(
     wellPanel(
       fluidRow(
-        column(width = 3),
+        column(width = 3, h5("Point estimate")),
         column(width = 4, h5("Parameter")),
-        column(width = 4, h5("Transformation"))
+        column(width = 4, h5("Posterior interval"))
       ),
       fluidRow(
-        column(width = 3),
+        column(width = 3,
+               radioButtons(
+                 inputId = ns("param_plot_point_est"),
+                 label = NULL,
+                 choices = c("Median", "Mean"),
+                 selected = "Median",
+                 inline = TRUE
+               )),
         column(
           width = 4,
           selectizeInput(
@@ -18,6 +25,20 @@ areasPlotUI <- function(id){
             choices = sso@param_names,
             selected = c(sso@param_names[1])
           )
+        ),
+        column(
+          width = 4,
+          sliderInput(
+            inputId = ns("param_plot_ci_level"),
+            label = NULL,
+            width = "75%",
+            ticks = FALSE,
+            min = 50,
+            max = 95,
+            value = 50,
+            step = 5,
+            post = "%"
+          )
         )
       )
     ),
@@ -25,10 +46,11 @@ areasPlotUI <- function(id){
   )
 }
 
-
 areasPlot <- function(input, output, session){
   
   param <- reactive(input$diagnostic_param)
+  pointEstimate <- reactive(input$param_plot_point_est)
+  interval <- reactive(input$param_plot_ci_level)
   
   output$plot1 <- renderPlot({
     
@@ -38,7 +60,9 @@ areasPlot <- function(input, output, session){
     )
     mcmc_areas(
       sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ],
-      pars = param()
+      pars = param(),
+      point_est = tolower(pointEstimate()),
+      prob = interval()/100
     )
   })
 }
