@@ -4,7 +4,7 @@ visualEstimateUI <- function(id){
   
   tabPanel(
     title = "Plots",
-    id = ns("visualHMC"),
+    id = ns("visualEstimate"),
     navlistPanel(
       id = ns("HMC_navlist"),
       tabPanel(

@@ -4,18 +4,13 @@ numericalEstimateUI <- function(id){
   
   tabPanel(
     title = "Stats",
-    id = ns("visualHMC"),
+    id = ns("numericalEstimate"),
     navlistPanel(
       id = ns("HMC_navlist"),
-      "NUTS/HMC",
       tabPanel(
-        title = "Divergent Transitions",
-        id = ns("divergentTransitionsTab")
-      ),
-      "MCMC",
-      tabPanel(
-        title = "Trace Plots",
-        id = ns("chainTab")
+        title = "Posterior Summary Statistics",
+        id = ns("summaryStats"),
+        summaryTableUI(ns("summaryTable"))
       )
     )
   )
@@ -25,6 +20,6 @@ numericalEstimateUI <- function(id){
 
 
 numericalEstimate <- function(input, output, session){
-  
+  callModule(summaryTable, "summaryTable")
   
 }

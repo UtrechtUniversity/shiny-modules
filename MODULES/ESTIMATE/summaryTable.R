@@ -1,0 +1,84 @@
+summaryTableUI <- function(id){
+  # for internal namespace structure
+  ns <- NS(id)
+  tagList(
+    wellPanel(
+      fluidRow(
+        column(width = 3),
+        column(width = 4, h5("Parameter")),
+        column(width = 4, h5("Decimals"))
+      ),
+      fluidRow(
+        column(
+          width = 3),
+        column(
+          width = 4,
+          selectizeInput(
+            inputId = ns("diagnostic_param"),
+            label = NULL,
+            multiple = TRUE,
+            choices = sso@param_names,
+            selected = sso@param_names[1]
+          )
+        ),
+        column(
+          width = 4,
+          numericInput(
+            ns("sampler_digits"),
+            label = NULL,
+            value = 4,
+            min = 0,
+            max = 10,
+            step = 1
+          )
+        )
+      )
+    ),
+    DT::dataTableOutput(ns("summaryTable"))
+  )
+}
+
+
+summaryTable <- function(input, output, session){
+  
+  param <- reactive(input$diagnostic_param)
+  digits <- reactive(input$sampler_digits)
+  
+  summaryStats <- reactive({
+    
+    if(length(param()) == 1){
+      
+      out <- sso@summary[param(), -c(9, 10)]
+      out <- matrix(out, nrow = 1)
+      rownames(out) <- param()
+      colnames(out) <- colnames(sso@summary)[-c(9,10)]
+      out <- formatC(round(out, digits()), format = 'f', digits = digits())
+      out
+      
+    } else {
+      out <- sso@summary[param(), -c(9, 10)]
+      out <- formatC(round(out, digits()), format = 'f', digits = digits())
+      out
+    }
+  })
+  
+  output$summaryTable <- DT::renderDataTable({
+    validate(
+      need(length(param()) > 0, "Select at least one parameter.")
+    )
+    DT::datatable({
+      summaryStats() 
+    }, options = list(
+      processing = TRUE,
+      deferRender = TRUE,
+      scrollX = TRUE,
+      scrollY = "200px",
+      scrollCollapse = TRUE,
+      paging = FALSE,
+      searching = FALSE,
+      info = FALSE
+    ))
+  })
+  
+  
+}

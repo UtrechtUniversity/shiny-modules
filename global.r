@@ -44,6 +44,7 @@ source("MODULES/ESTIMATE/intervalsPlot.r")
 source("MODULES/ESTIMATE/areasPlot.r")
 
 source("MODULES/ESTIMATE/numericalEstimate.r")
+source("MODULES/ESTIMATE/summaryTable.r")
 
 
 # Example data and fit in global environment
