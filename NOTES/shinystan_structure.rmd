@@ -4,7 +4,8 @@
     - validate might be alterantive option to use
   * check validate for visual stuff to not get 3 modules but 1 with conditions
   * make stats tab MCMC into seperate rhat etc. and separate autocorrelation
-
+  * add pairs plot diagnostics
+  * add sample information plot diagnostics (acceptance)
 
 
 ## Page Structures

@@ -37,7 +37,16 @@ source("MODULES/DIAGNOSE/autoCorrelationStats.r")
 source("MODULES/ESTIMATE/estimateHomepage.r")
 
 source("MODULES/ESTIMATE/visualEstimate.r")
+source("MODULES/ESTIMATE/scatterPlot.r")
+source("MODULES/ESTIMATE/densityPlot.r")
+source("MODULES/ESTIMATE/histogramPlot.r")
+source("MODULES/ESTIMATE/intervalsPlot.r")
+source("MODULES/ESTIMATE/areasPlot.r")
+
 source("MODULES/ESTIMATE/numericalEstimate.r")
+
+source("MODULES/transform.r")
+
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment
 sso <- shinystan::eight_schools
