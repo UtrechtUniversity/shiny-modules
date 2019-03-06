@@ -58,7 +58,12 @@ histogramPlot <- function(input, output, session){
   })
   
   param <- reactive(input$diagnostic_param)
-  transform <- reactive(input$transformation)
+  transform <- reactive({
+    validate(
+      need(is.null(input$transformation) == FALSE, "")
+    )
+    input$transformation
+  })
   
   output$plot1 <- renderPlot({
     

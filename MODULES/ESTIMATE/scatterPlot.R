@@ -72,6 +72,9 @@ scatterPlot <- function(input, output, session){
   transform2 <- reactive({input$transformation2})
   
   transform <- reactive({
+    validate(
+      need(is.null(transform1()) == FALSE, "")
+    )
     out <- list(transform1(), transform2())
     names(out) <- c(param())
     out

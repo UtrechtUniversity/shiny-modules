@@ -44,11 +44,13 @@ warnings <- function (input, output, session) {
        unlist(.) %>% sum(.) > 0) {
       HTML(paste0("<div style='background-color:red; color:white; 
                     padding:5px; opacity:.3'>",
-                  checkDivergences, "</div>"))
+                  tags$a(checkDivergences,onclick="customHref('Diagnose');customHref('Divergent Transitions');"),
+                   "</div>"))
     } else {
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
-                  checkDivergences, "</div>"))
+                  tags$a(checkDivergences,onclick="customHref('Diagnose');customHref('Divergent Transitions');"),
+                  "</div>"))
     }
     
   })
@@ -75,11 +77,13 @@ warnings <- function (input, output, session) {
        lapply(., sum) %>% unlist(.) %>% sum(.) > 0) {
         HTML(paste0("<div style='background-color:red; color:white; 
                     padding:5px; opacity:.3'>",
-                    check_treedepth, "</div>"))
+                    tags$a(check_treedepth,onclick="customHref('Diagnose');customHref('Treedepth Information');"),
+                    "</div>"))
     } else {
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
-                  check_treedepth, "</div>"))
+                  tags$a(check_treedepth,onclick="customHref('Diagnose');customHref('Treedepth Information');"),
+                   "</div>"))
     }
   })
   
@@ -126,11 +130,13 @@ warnings <- function (input, output, session) {
     if(check_energy_sso(sso) != "E-BFMI indicated no pathological behavior.") {
       HTML(paste0("<div style='background-color:red; color:white; 
                 padding:5px; opacity:.3'>",
-                  energyWarning, "</div>"))
+                  tags$a(energyWarning,onclick="customHref('Diagnose');customHref('Energy Information');"),
+                  "</div>"))
     } else {
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                 padding:5px; opacity:.3'>",
-                  energyWarning, "</div>"))
+                  tags$a(energyWarning,onclick="customHref('Diagnose');customHref('Energy Information');"),
+                  "</div>"))
     }
   })
   

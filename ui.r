@@ -1,6 +1,8 @@
 # Begin shinyUI -----------------------------------------------------------
 # _________________________________________________________________________
 tagList(
+  tags$head(
+    tags$script("src"="func.js")),
   tags$noscript(
     style = "color: orange; font-size: 30px; text-align: center;",
     "Please enable JavaScript to use ShinyStan."
