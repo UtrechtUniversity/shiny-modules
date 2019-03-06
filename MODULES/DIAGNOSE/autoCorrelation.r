@@ -6,7 +6,7 @@ autoCorrelationUI <- function(id){
       fluidRow(
         column(width = 3, h5(textOutput(ns("diagnostic_chain_text")))),
         column(width = 4, h5("Parameter")),
-        column(width = 4)
+        column(width = 4, h5("Lags"))
       ),
       fluidRow(
         column(
@@ -29,7 +29,18 @@ autoCorrelationUI <- function(id){
             choices = sso@param_names,
             selected = sso@param_names[1]
           )
-        )
+        ),
+        column(
+          width = 4, div(style = "width: 100px;",
+                         numericInput(
+                           ns("diagnostic_lags"),
+                           label = NULL,
+                           value = 20,
+                           min = 1,
+                           max = (sso@n_iter - sso@n_warmup - 2),
+                           step = 1
+                         )
+          ))
       )
     ),
     plotOutput(ns("plot1"))
@@ -44,8 +55,14 @@ autoCorrelation <- function(input, output, session){
 
   chain <- reactive(input$diagnostic_chain)
   param <- reactive(input$diagnostic_param)
+  lags <- reactive(input$diagnostic_lags)
+  
+  observe(print(lags()))
   
   output$diagnostic_chain_text <- renderText({
+    validate(
+      need(is.na(chain()) == FALSE, "Select chains")
+    )
     if (chain() == 0)
       return("All chains")
     paste("Chain", chain())
@@ -55,13 +72,17 @@ autoCorrelation <- function(input, output, session){
     
     color_scheme_set("blue")
     validate(
-      need(length(param()) > 0, "Select at least one parameter.")
+      need(length(param()) > 0, "Select at least one parameter."),
+      need(is.na(chain()) == FALSE, "Select chains"),
+      need(is.null(lags()) == FALSE & is.na(lags()) == FALSE, "Select lags"),
+      need(lags() > 0 & lags() < (sso@n_iter - sso@n_warmup - 1), "Number of lags is inappropriate.")
     )
-    mcmc_acf( if(chain() != 0) {
+    mcmc_acf_bar( if(chain() != 0) {
       sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]
     } else {
       sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ]
-    }, pars = param()
+    }, pars = param(),
+    lags = lags()
     )
   })
   
