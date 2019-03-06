@@ -151,12 +151,13 @@ warnings <- function (input, output, session) {
     if(length(bad_n_eff) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                 padding:5px; opacity:.3'>",
-                  "No parameters have an effective sample size less than 10% of the total sample size.", 
-                  "</div>"))
+                  tags$a("No parameters have an effective sample size less than 10% of the total sample size.", 
+                         onclick = "customHref('Diagnose');customHref('rhat_neff_se_mean_plot_tab');"), "</div>"))
     } else {
       HTML(paste0("<div style='background-color:red; color:white; 
                 padding:5px; opacity:.3'>",
-                  n_effWarning, "</div>"))
+                  tags$a(n_effWarning, 
+                         onclick = "customHref('Diagnose');customHref('rhat_neff_se_mean_plot_tab');"), "</div>"))
     }
   })
 
@@ -171,12 +172,13 @@ warnings <- function (input, output, session) {
     if(length(bad_se_mean) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
-                  "No parameters have a standard error greater than 10% of the posterior standard deviation.", 
-                  "</div>"))
+                  tags$a("No parameters have a standard error greater than 10% of the posterior standard deviation.", 
+                         onclick = "customHref('Diagnose');customHref('rhat_neff_se_mean_plot_tab');"), "</div>"))
     } else {
       HTML(paste0("<div style='background-color:red; color:white; 
                   padding:5px; opacity:.3'>",
-                  se_meanWarning, "</div>"))
+                  tags$a(se_meanWarning, 
+                         onclick = "customHref('Diagnose');customHref('rhat_neff_se_mean_plot_tab');"), "</div>"))
     }
   })
   
@@ -190,12 +192,13 @@ warnings <- function (input, output, session) {
     if(length(bad_rhat) < 1){
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
-                  "No parameters have an Rhat value above 1.1.", 
-                  "</div>"))
+                  tags$a("No parameters have an Rhat value above 1.1.", 
+                         onclick = "customHref('Diagnose');customHref('rhat_neff_se_mean_plot_tab');"), "</div>"))
     } else {
       HTML(paste0("<div style='background-color:red; color:white; 
                   padding:5px; opacity:.3'>",
-                  rhatWarning, "</div>"))
+                  tags$a(rhatWarning, 
+                         onclick = "customHref('Diagnose');customHref('rhat_neff_se_mean_plot_tab');"), "</div>"))
     }
   })
   #  # should be under 1.1

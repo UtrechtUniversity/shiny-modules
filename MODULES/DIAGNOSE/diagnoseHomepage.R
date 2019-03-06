@@ -81,6 +81,7 @@ diagnose <- function(input, output, session){
         tabPanel(
           title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
           id = session$ns("rhat_n_eff_se_meanTab"),
+          value = "rhat_neff_se_mean_plot_tab",
           rhat_n_eff_se_meanUI(session$ns("rhat_n_eff_se_mean"))
         ),
         tabPanel(
@@ -110,6 +111,7 @@ diagnose <- function(input, output, session){
         ),
         tabPanel(
           title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
+          value = "rhat_neff_se_mean_plot_tab",
           id = session$ns("rhat_n_eff_se_meanTab"),
           rhat_n_eff_se_meanUI(session$ns("rhat_n_eff_se_mean"))
         ),
