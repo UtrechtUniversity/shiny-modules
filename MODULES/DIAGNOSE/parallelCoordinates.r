@@ -32,8 +32,10 @@ parallelCoordinatesUI <- function(id){
         ),
         column(
           width = 4,
-          actionButton(ns("generatePlot"), "Generate Parallel Coordinates Plot")
-        )
+          actionButton(ns("generatePlot"), "Generate Parallel Coordinates Plot",
+                       style="color: white; background-color: #222222; height: 30px; width: 200px; padding: 5px; 
+                       margin: 3px; border-radius: 15px; font-size: 12px; font-weight: bold;")
+          )
       )
     ),
     plotOutput(ns("plot1"))
@@ -64,12 +66,14 @@ parallelCoordinates <- function(input, output, session){
   observeEvent(input$generatePlot, {
     output$plot1 <- renderPlot({
       
+      parameters <- isolate(param_reactive())
+      
       color_scheme_set("darkgray")
       
       if(chain_reactive() != 0) {
         mcmc_parcoord(
           x = sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain_reactive(), ],
-          pars = param_reactive(),
+          pars = parameters,
           np = nuts_params(list(sso@sampler_params[[chain_reactive()]]) %>%
                              lapply(., as.data.frame) %>%
                              lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
@@ -78,7 +82,7 @@ parallelCoordinates <- function(input, output, session){
       } else {
         mcmc_parcoord(
           x = sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ],
-          pars = param(),
+          pars = parameters,
           np = nuts_params(sso@sampler_params %>%
                              lapply(., as.data.frame) %>%
                              lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
