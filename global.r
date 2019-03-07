@@ -23,7 +23,7 @@ source("MODULES/DIAGNOSE/parallelCoordinates.r")
 source("MODULES/DIAGNOSE/pairs.r")
 source("MODULES/DIAGNOSE/acceptance.r")
 
-source("MODULES/DIAGNOSE/chainPlot.r")
+source("MODULES/DIAGNOSE/tracePlot.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")
 source("MODULES/DIAGNOSE/autoCorrelation.r")
 
@@ -55,8 +55,8 @@ source("MODULES/REPORT/report.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment
-# sso <- shinystan::eight_schools
-sso <- readRDS("TEST MODELS/eight_schools_meanfield.rds")
+sso <- shinystan::eight_schools
+# sso <- readRDS("TEST MODELS/eight_schools_meanfield.rds")
 # test different models
 # sso <- readRDS("TEST MODELS/stan_demo_model_473_method_sampling.rds")
 # sso <- readRDS("TEST MODELS/stan_demo_model_99_method_sampling.rds")

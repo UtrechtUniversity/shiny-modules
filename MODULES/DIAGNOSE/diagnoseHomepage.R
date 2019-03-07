@@ -29,8 +29,8 @@ diagnose <- function(input, output, session){
   }
   
   if(sso@misc$stan_method == "sampling"){
-    callModule(chainPlot, "chainPlot")  
-    callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
+    getTracePlot <- callModule(tracePlot, "tracePlot")  
+    getRhatNeffSEmeanPlots <- callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
     callModule(autoCorrelation, "autoCorrelation")
     
     callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
@@ -95,8 +95,8 @@ diagnose <- function(input, output, session){
         "MCMC",
         tabPanel(
           title = "Trace Plots",
-          id = session$ns("chainTab"),
-          chainPlotUI(session$ns("chainPlot"))
+          id = session$ns("traceTab"),
+          tracePlotUI(session$ns("tracePlot"))
         ),
         tabPanel(
           title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
@@ -152,8 +152,8 @@ diagnose <- function(input, output, session){
         id = session$ns("MCMC_navlist_vis"),
         tabPanel(
           title = "Trace Plots",
-          id = session$ns("chainTab"),
-          chainPlotUI(session$ns("chainPlot"))
+          id = session$ns("traceTab"),
+          tracePlotUI(session$ns("tracePlot"))
         ),
         tabPanel(
           title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
@@ -203,7 +203,11 @@ diagnose <- function(input, output, session){
          "energyPlot" = getEnergyPlot(),
          "treedepthPlot" = getTreedepthPlot(),
          "stepSizePlot" = getStepSizePlot(),
-         "acceptancePlot" = getAcceptancePlot())
+         "acceptancePlot" = getAcceptancePlot(),
+         "tracePlot" = getTracePlot(),
+         "rhatPlot" = getRhatNeffSEmeanPlots()["rhatPlot"],
+         "n_effPlot" = getRhatNeffSEmeanPlots()["n_effPlot"],
+         "se_meanPlot" = getRhatNeffSEmeanPlots()["se_meanPlot"])
     }))
   
 }

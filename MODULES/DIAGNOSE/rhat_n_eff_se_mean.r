@@ -62,17 +62,26 @@ rhat_n_eff_se_meanUI <- function(id){
 
 rhat_n_eff_se_mean <- function(input, output, session){
   
-  output$rhatPlot <- renderPlot({
+  
+  plotOut_rhat <- function(){
     color_scheme_set("blue")
     mcmc_rhat_hist(sso@summary[, "Rhat"])
+  }
+  
+  output$rhatPlot <- renderPlot({
+    plotOut_rhat()
   })
   
-  output$n_effPlot <- renderPlot({
+  plotOut_n_eff <- function(){
     color_scheme_set("blue")
     mcmc_neff_hist(sso@summary[, "n_eff"] / ((sso@n_iter - sso@n_warmup) * sso@n_chain))
+  }
+  
+  output$n_effPlot <- renderPlot({
+    plotOut_n_eff()
   })
   
-  output$se_meanPlot <- renderPlot({
+  plotOut_se_mean <- function(){
     se_sd_table <- tibble(diagnostic = rep("se_sd_ratio", length(sso@param_names)),
                           parameter = as.factor(sso@param_names),
                           value = sso@summary[, "se_mean"] / sso@summary[, "sd"],
@@ -90,6 +99,10 @@ rhat_n_eff_se_mean <- function(input, output, session){
       bayesplot:::dont_expand_y_axis(c(0.005, 0)) + bayesplot_theme_get() + 
       yaxis_title(FALSE) + yaxis_text(FALSE) + yaxis_ticks(FALSE) +
       theme(legend.position = "none")
+  }
+  
+  output$se_meanPlot <- renderPlot({
+    plotOut_se_mean()
   })
   
   
@@ -158,5 +171,10 @@ rhat_n_eff_se_mean <- function(input, output, session){
     }
   })
   
+  return(reactive({
+    list("rhatPlot" = plotOut_rhat(),
+         "n_effPlot" = plotOut_n_eff(),
+         "se_meanPlot" = plotOut_se_mean())
+  }))
   
 }

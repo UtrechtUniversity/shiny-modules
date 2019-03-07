@@ -60,6 +60,10 @@ tagList(
         aboutUI("about")
       ),
       
+    tabPanel(
+      title = "Report",
+      reportUI("report")
+    ),
       #### glossary ####
       tabPanel(
         title = "Glossary",
@@ -70,10 +74,6 @@ tagList(
       tabPanel(
         title = "Help",
         helpUI("help")
-    ),
-    tabPanel(
-      title = "Report",
-      reportUI("report")
     )
     )
     
