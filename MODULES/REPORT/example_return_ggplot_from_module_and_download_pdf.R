@@ -1,4 +1,6 @@
 library(shiny)
+library(bayesplot)
+sso <- shinystan::eight_schools
 
 plotModuleUI <- function(id){
   ns <- NS(id)
@@ -38,7 +40,8 @@ ui <- function(id) {
     navlistPanel(
       tabPanel("plotting",
                plotModuleUI("plotModule"),
-      downloadButton('downloadPlot', 'Download Plot'))
+      downloadButton('downloadPlot', 'Download Plot'),
+      downloadButton('downloadRDS', 'Download RDS'))
     )
   )
   )
@@ -68,6 +71,18 @@ server <- function(input, output, session){
       print(getPlot())
       dev.off()
     })  
+  
+  output$downloadRDS <- downloadHandler(
+    filename = 'test.rds',
+    content = function(file) {
+      # device <- function(..., width, height) {
+      # grDevices::pdf(..., width = width, height = height)
+      # }
+      # ggsave(file, plot = getPlot(), device = device)
+      # cowplot::save_plot(file, cowplot::plot_grid(getPlot(), getPlot()))
+      saveRDS(getPlot(), file)
+    })  
+  
   
 }
 

@@ -4,9 +4,9 @@ diagnoseUI <- function(id){
   
   # encapsulate everything in taglist, see https://shiny.rstudio.com/articles/modules.html
   tagList(
-    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS") uiOutput(ns("visualHMC")),
-    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm != "NUTS") uiOutput(ns("visualMCMC")),
-    if(sso@misc$stan_method != "sampling") uiOutput(ns("visualVI"))
+    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS") uiOutput(ns("HMC")),
+    if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm != "NUTS") uiOutput(ns("MCMC")),
+    if(sso@misc$stan_method != "sampling") uiOutput(ns("VI"))
   )
   
 }
@@ -22,27 +22,35 @@ diagnose <- function(input, output, session){
     callModule(treedepth, "treedepth")
     callModule(stepSize, "stepSize")
     callModule(acceptance, "acceptance")
+    
+    callModule(statsTableHMC, "statsTableHMC")
+    callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
+    callModule(autoCorrelationStats, "autoCorrelationStats")
   }
   
   if(sso@misc$stan_method == "sampling"){
     callModule(chainPlot, "chainPlot")  
     callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
     callModule(autoCorrelation, "autoCorrelation")
+    
+    callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
+    callModule(autoCorrelationStats, "autoCorrelationStats")
   }
   
 
-  output$visualHMC <- renderUI({
+  output$HMC <- renderUI({
     validate(
       need(sso@misc$stan_method == "sampling", ""),
       need(sso@misc$stan_algorithm == "NUTS", ""))
     tagList(
       tags$head(
         tags$script("src"="func.js")),
+      tabsetPanel(
     tabPanel(
       title = "Plots",
       id = session$ns("visualHMC"),
       navlistPanel(
-        id = session$ns("HMC_navlist"),
+        id = session$ns("HMC_navlist_vis"),
         "NUTS/HMC",
         tabPanel(
           title = "Divergent Scatter",
@@ -102,20 +110,46 @@ diagnose <- function(input, output, session){
           autoCorrelationUI(session$ns("autoCorrelation"))
         )
       )
+    ),
+    tabPanel(
+      title = "Stats",
+      id = session$ns("numericalHMC"),
+      navlistPanel(
+        id = session$ns("HMC_navlist_num"),
+        "NUTS/HMC",
+        tabPanel(
+          title = "All NUTS/HMC stats",
+          id = session$ns("HMCstatTab"),
+          statsTableHMCUI(session$ns("statsTableHMC"))
+        ),
+        "MCMC",
+        tabPanel(
+          title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
+          id = session$ns("rhat_n_eff_se_meanTab"),
+          rhat_n_eff_se_mean_statsUI(session$ns("rhat_n_eff_se_mean_stats"))
+        ),
+        tabPanel(
+          title = "Autocorrelation",
+          id = session$ns("autocorrelationTab"),
+          autoCorrelationStatsUI(session$ns("autoCorrelationStats"))
+        )
+      )
+    )
     )
     )
   })
   
-  output$visualMCMC <- renderUI({
+  output$MCMC <- renderUI({
     validate(
       need(sso@misc$stan_method == "sampling", ""), 
       need(sso@misc$stan_algorithm != "NUTS", ""))
     
+    lagList(
     tabPanel(
       title = "Plots",
       id = session$ns("visualHMC"),
       navlistPanel(
-        id = session$ns("HMC_navlist"),
+        id = session$ns("MCMC_navlist_vis"),
         tabPanel(
           title = "Trace Plots",
           id = session$ns("chainTab"),
@@ -133,11 +167,29 @@ diagnose <- function(input, output, session){
           autoCorrelationUI(session$ns("autoCorrelation"))
         )
       )
+    ),
+    tabPanel(
+      title = "Stats",
+      id = session$ns("numericalHMC"),
+      navlistPanel(
+        id = session$ns("MCMC_navlist_num"),
+        tabPanel(
+          title = withMathJax("\\(\\hat{R}, \\text{ } n_{eff}, \\text{ se}_{mean}\\)"),
+          id = session$ns("rhat_n_eff_se_meanTab"),
+          rhat_n_eff_se_mean_statsUI(session$ns("rhat_n_eff_se_mean_stats"))
+        ),
+        tabPanel(
+          title = "Autocorrelation",
+          id = session$ns("autocorrelationTab"),
+          autoCorrelationStatsUI(session$ns("autoCorrelationStats"))
+        )
+      )
+    )
     )
     
   })
   
-  output$visualVI <- renderUI({
+  output$VI <- renderUI({
     validate(need(sso@misc$stan_method == "variational", ""))
     h4("Currently no diagnostics available for Variational Inference")
   })
