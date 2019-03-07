@@ -15,7 +15,9 @@ diagnose <- function(input, output, session){
   
   if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS"){
     callModule(parallelCoordinates, "parallelCoordinates")
+    callModule(pairs, "pairs")
     callModule(divergentTransitions, "divergentTransitions")
+    callModule(divergentScatter, "divergentScatter")
     callModule(energy, "energy")
     callModule(treedepth, "treedepth")
     callModule(stepSize, "stepSize")
@@ -43,14 +45,24 @@ diagnose <- function(input, output, session){
         id = session$ns("HMC_navlist"),
         "NUTS/HMC",
         tabPanel(
-          title = "Divergent Transitions",
-          id = session$ns("divergentTransitionsTab"),
-          divergentTransitionsUI(session$ns("divergentTransitions"))
+          title = "Divergent Scatter",
+          id = session$ns("divergentScatterTab"),
+          divergentScatterUI(session$ns("divergentScatter"))
         ),
         tabPanel(
           title = "Parallel Coordinates",
           id = session$ns("parallelCoordinatesTab"),
           parallelCoordinatesUI(session$ns("parallelCoordinates"))
+        ),
+        tabPanel(
+          title = "Pairs",
+          id = session$ns("pairsTab"),
+          pairsUI(session$ns("pairs"))
+        ),
+        tabPanel(
+          title = "Divergence Information",
+          id = session$ns("divergentTransitionsTab"),
+          divergentTransitionsUI(session$ns("divergentTransitions"))
         ),
         tabPanel(
           title = "Energy Information",
@@ -68,7 +80,7 @@ diagnose <- function(input, output, session){
           stepSizeUI(session$ns("stepSize"))
         ),
         tabPanel(
-          title = "Acceptance",
+          title = "Acceptance Information",
           id = session$ns("acceptanceTab"),
           acceptanceUI(session$ns("acceptance"))
         ),

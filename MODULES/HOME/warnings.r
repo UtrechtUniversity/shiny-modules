@@ -44,12 +44,12 @@ warnings <- function (input, output, session) {
        unlist(.) %>% sum(.) > 0) {
       HTML(paste0("<div style='background-color:red; color:white; 
                     padding:5px; opacity:.3'>",
-                  tags$a(checkDivergences,onclick="customHref('Diagnose');customHref('Divergent Transitions');"),
+                  tags$a(checkDivergences,onclick="customHref('Diagnose');customHref('Divergent Scatter');"),
                    "</div>"))
     } else {
       HTML(paste0("<div style='background-color:lightblue; color:black; 
                   padding:5px; opacity:.3'>",
-                  tags$a(checkDivergences,onclick="customHref('Diagnose');customHref('Divergent Transitions');"),
+                  tags$a(checkDivergences,onclick="customHref('Diagnose');customHref('Divergent Scatter');"),
                   "</div>"))
     }
     

@@ -14,11 +14,13 @@ source("MODULES/HOME/warnings.r")
 # diagnoses tab
 source("MODULES/DIAGNOSE/diagnoseHomepage.r")
 
+source("MODULES/DIAGNOSE/divergentScatter.r")
 source("MODULES/DIAGNOSE/divergentTransitions.r")
 source("MODULES/DIAGNOSE/energy.r")
 source("MODULES/DIAGNOSE/treedepth.r")
 source("MODULES/DIAGNOSE/stepSize.r")
 source("MODULES/DIAGNOSE/parallelCoordinates.r")
+source("MODULES/DIAGNOSE/pairs.r")
 source("MODULES/DIAGNOSE/acceptance.r")
 
 source("MODULES/DIAGNOSE/chainPlot.r")
