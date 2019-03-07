@@ -126,6 +126,9 @@ divergentScatter <- function(input, output, session){
         
       },
       np_style = scatter_style_np(div_color = "green", div_alpha = 0.8)
-    )
+    ) + labs(#title = "",
+             #subtitle = "Generated via ShinyStan",
+             caption = paste0("Scatter plot of ", param()[1]," and ", param()[2],
+                              " with highlighted divergent transitions."))
   })
   }
