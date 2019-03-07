@@ -27,7 +27,6 @@ source("MODULES/DIAGNOSE/chainPlot.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean.r")
 source("MODULES/DIAGNOSE/autoCorrelation.r")
 
-source("MODULES/DIAGNOSE/numericalHMC.r")
 source("MODULES/DIAGNOSE/statsTableHMC.r")
 source("MODULES/DIAGNOSE/rhat_n_eff_se_mean_stats.r")
 source("MODULES/DIAGNOSE/autoCorrelationStats.r")
@@ -50,6 +49,9 @@ source("MODULES/MORE/about.r")
 source("MODULES/MORE/modelCode.r")
 source("MODULES/MORE/help.r")
 source("MODULES/MORE/glossary.r")
+# source("MODULES/MORE/test.r")
+# report
+source("MODULES/REPORT/report.r")
 
 # Example data and fit in global environment
 # Assume you have a SSO object in global environment

@@ -17,7 +17,7 @@ diagnose <- function(input, output, session){
     callModule(parallelCoordinates, "parallelCoordinates")
     callModule(pairs, "pairs")
     callModule(divergentTransitions, "divergentTransitions")
-    callModule(divergentScatter, "divergentScatter")
+    getDivergentScatterPlot <- callModule(divergentScatter, "divergentScatter")
     callModule(energy, "energy")
     callModule(treedepth, "treedepth")
     callModule(stepSize, "stepSize")
@@ -195,5 +195,6 @@ diagnose <- function(input, output, session){
   })
   
   
+  return(reactive({getDivergentScatterPlot()}))
   
 }

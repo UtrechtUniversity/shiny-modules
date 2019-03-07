@@ -57,19 +57,23 @@ tagList(
       #### about ####
       tabPanel(
         title = "About",
-        aboutUI(ns("about"))
+        aboutUI("about")
       ),
       
       #### glossary ####
       tabPanel(
         title = "Glossary",
-        glossaryUI(ns("glossary"))
+        glossaryUI("glossary")
       ),
       
       #### help ####
       tabPanel(
         title = "Help",
-        helpUI(ns("help"))
+        helpUI("help")
+    ),
+    tabPanel(
+      title = "Report",
+      reportUI("report")
     )
     )
     

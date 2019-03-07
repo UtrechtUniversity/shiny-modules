@@ -57,8 +57,6 @@ autoCorrelation <- function(input, output, session){
   param <- reactive(input$diagnostic_param)
   lags <- reactive(input$diagnostic_lags)
   
-  observe(print(lags()))
-  
   output$diagnostic_chain_text <- renderText({
     validate(
       need(is.na(chain()) == FALSE, "Select chains")

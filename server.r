@@ -25,7 +25,7 @@ server <- function(input, output, session) {
   # home tab
   callModule(homepage, "homepage")
   # diagnose tab
-  callModule(diagnose, "diagnoseHomepage")
+  getDiagnosePlots <- callModule(diagnose, "diagnoseHomepage")
   # estimate tab
   callModule(estimate, "estimateHomepage")
   # about tab
@@ -33,5 +33,7 @@ server <- function(input, output, session) {
   callModule(modelCode, "modelCode")
   callModule(help, "help")
   callModule(glossary, "glossary")
+  callModule(report, "report", ggplotsList = getDiagnosePlots)
+  # callModule(test, "test")
 }
 

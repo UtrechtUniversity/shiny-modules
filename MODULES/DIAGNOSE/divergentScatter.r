@@ -48,13 +48,13 @@ divergentScatter <- function(input, output, session){
   
   output$transform <- renderUI({
     
-    validate(
-      need(length(param()) == 2, "Select two parameters.")
-    )
     inverse <- function(x) 1/x
     cloglog <- function(x) log(-log1p(-x))
     square <- function(x) x^2
     
+    validate(
+      need(length(param()) == 2, "Select two parameters.")
+    )
     transformation_choices <- c(
       "abs", "atanh",
       cauchit = "pcauchy", "cloglog",
@@ -99,22 +99,22 @@ divergentScatter <- function(input, output, session){
   })
   
   
-  output$plot1 <- renderPlot({
+  plotOut <- function(parameters, chain, transformations){
     
     color_scheme_set("darkgray")
     validate(
-      need(length(param()) == 2, "Select two parameters.")
+      need(length(parameters) == 2, "Select two parameters.")
     )
     mcmc_scatter(
-      if(chain() != 0) {
-        sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain(), ]
+      if(chain != 0) {
+        sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain, ]
       } else {
         sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, , ]
       },
-      pars = param(),
-      transformations = transform(),
-      np = if(chain() != 0) {
-        nuts_params(list(sso@sampler_params[[chain()]]) %>%
+      pars = parameters,
+      transformations = transformations,
+      np = if(chain != 0) {
+        nuts_params(list(sso@sampler_params[[chain]]) %>%
                       lapply(., as.data.frame) %>%
                       lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
                       lapply(., as.matrix))
@@ -128,7 +128,18 @@ divergentScatter <- function(input, output, session){
       np_style = scatter_style_np(div_color = "green", div_alpha = 0.8)
     ) + labs(#title = "",
              #subtitle = "Generated via ShinyStan",
-             caption = paste0("Scatter plot of ", param()[1]," and ", param()[2],
+             caption = paste0("Scatter plot of ", parameters[1]," and ", parameters[2],
                               " with highlighted divergent transitions."))
+    
+    
+  }
+  
+  output$plot1 <- renderPlot({
+    plotOut(parameters = param(), chain = chain(),
+            transformations = transform())
   })
+  
+  return(reactive({plotOut(parameters = param(), chain = chain(),
+                           transformations = transform())}))
+  
   }
