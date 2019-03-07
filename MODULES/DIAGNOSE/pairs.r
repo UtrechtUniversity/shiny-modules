@@ -63,18 +63,15 @@ pairs <- function(input, output, session){
     paste("Chain", chain())
   })
   
-  observeEvent(input$generatePlot, {
-    output$plot1 <- renderPlot({
-      
-      parameters <- isolate(param_reactive())
-      
+  plotOut <- function(parameters, chain){
+    
       color_scheme_set("darkgray")
       
-      if(chain_reactive() != 0) {
+      if(chain != 0) {
         mcmc_pairs(
-          x = sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain_reactive(), ],
+          x = sso@posterior_sample[(1 + sso@n_warmup) : sso@n_iter, chain, ],
           pars = parameters,
-          np = nuts_params(list(sso@sampler_params[[chain_reactive()]]) %>%
+          np = nuts_params(list(sso@sampler_params[[chain]]) %>%
                              lapply(., as.data.frame) %>%
                              lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
                              lapply(., as.matrix))
@@ -89,6 +86,17 @@ pairs <- function(input, output, session){
                              lapply(., as.matrix))
         )
       }
+  }
+  
+  observeEvent(input$generatePlot, {
+    output$plot1 <- renderPlot({
+      
+     plotOut(parameters = param_reactive(), chain = chain_reactive())
     })
   })
+  
+  return(reactive({ 
+    plotOut(parameters = param_reactive(), chain = chain_reactive())
+    }))
+  
 }

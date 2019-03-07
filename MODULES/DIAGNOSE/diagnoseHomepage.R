@@ -15,7 +15,7 @@ diagnose <- function(input, output, session){
   
   if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS"){
     callModule(parallelCoordinates, "parallelCoordinates")
-    callModule(pairs, "pairs")
+    getPairsPlot <- callModule(pairs, "pairs")
     callModule(divergentTransitions, "divergentTransitions")
     getDivergentScatterPlot <- callModule(divergentScatter, "divergentScatter")
     callModule(energy, "energy")
@@ -195,6 +195,9 @@ diagnose <- function(input, output, session){
   })
   
   
-  return(reactive({getDivergentScatterPlot()}))
+  return(reactive({
+    list("divergentScatterPlot" = getDivergentScatterPlot(),
+         "pairsPlot" = getPairsPlot())
+    }))
   
 }
