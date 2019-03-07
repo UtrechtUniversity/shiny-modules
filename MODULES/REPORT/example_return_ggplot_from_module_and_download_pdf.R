@@ -60,7 +60,11 @@ server <- function(input, output, session){
       # ggsave(file, plot = getPlot(), device = device)
       # cowplot::save_plot(file, cowplot::plot_grid(getPlot(), getPlot()))
       pdf(file)
-      print(getPlot())
+      print(getPlot() + 
+              labs(title = "MLB run scoring, 1901-2015",
+                   subtitle = "Run scoring has been falling for 15 years, reversing a 30 year upward trend",
+                   caption = "Source: the Lahman baseball database", 
+                   x = "year", y = "team runs per game") )
       print(getPlot())
       dev.off()
     })  
