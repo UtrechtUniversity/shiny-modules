@@ -32,8 +32,6 @@ acceptanceUI <- function(id){
 
 acceptance <- function(input, output, session){
   
-  output$plot1 <- renderPlot({
-    
     chain <- reactive(input$diagnostic_chain)
     
     output$diagnostic_chain_text <- renderText({
@@ -42,17 +40,19 @@ acceptance <- function(input, output, session){
       paste("Chain", chain())
     })
     
+    plotOut <- function(chain) {
+      
     color_scheme_set("blue")
     
-      if(chain() != 0) {
+      if(chain != 0) {
         mcmc_nuts_acceptance(
-        x = nuts_params(list(sso@sampler_params[[chain()]]) %>%
+        x = nuts_params(list(sso@sampler_params[[chain]]) %>%
                           lapply(., as.data.frame) %>%
                           lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
                           lapply(., as.matrix)),
         lp = data.frame(Iteration = rep(1:(sso@n_iter - sso@n_warmup), 1),
-                        Value = c(sso@posterior_sample[(sso@n_warmup + 1):sso@n_iter, chain(),"log-posterior"]),
-                        Chain = rep(chain(), each = (sso@n_iter - sso@n_warmup))) 
+                        Value = c(sso@posterior_sample[(sso@n_warmup + 1):sso@n_iter, chain,"log-posterior"]),
+                        Chain = rep(chain, each = (sso@n_iter - sso@n_warmup))) 
         )
       } else {
         mcmc_nuts_acceptance(
@@ -65,5 +65,11 @@ acceptance <- function(input, output, session){
                         Chain = rep(1:sso@n_chain, each = (sso@n_iter - sso@n_warmup))) 
         )
       }
+    }
+    
+  output$plot1 <- renderPlot({
+    plotOut(chain = chain())
   })
+  
+  return(reactive({plotOut(chain = chain())}))
 }

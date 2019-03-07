@@ -14,14 +14,14 @@ diagnoseUI <- function(id){
 diagnose <- function(input, output, session){
   
   if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm == "NUTS"){
-    callModule(parallelCoordinates, "parallelCoordinates")
+    getParcoordPlot <- callModule(parallelCoordinates, "parallelCoordinates")
     getPairsPlot <- callModule(pairs, "pairs")
-    callModule(divergentTransitions, "divergentTransitions")
+    getDivergentTransitionsPlot <- callModule(divergentTransitions, "divergentTransitions")
     getDivergentScatterPlot <- callModule(divergentScatter, "divergentScatter")
-    callModule(energy, "energy")
-    callModule(treedepth, "treedepth")
-    callModule(stepSize, "stepSize")
-    callModule(acceptance, "acceptance")
+    getEnergyPlot <- callModule(energy, "energy")
+    getTreedepthPlot <- callModule(treedepth, "treedepth")
+    getStepSizePlot <- callModule(stepSize, "stepSize")
+    getAcceptancePlot <- callModule(acceptance, "acceptance")
     
     callModule(statsTableHMC, "statsTableHMC")
     callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
@@ -197,7 +197,13 @@ diagnose <- function(input, output, session){
   
   return(reactive({
     list("divergentScatterPlot" = getDivergentScatterPlot(),
-         "pairsPlot" = getPairsPlot())
+         "parcoordPlot" = getParcoordPlot(),
+         "pairsPlot" = getPairsPlot(),
+         "divergentTransitionsPlot" = getDivergentTransitionsPlot(),
+         "energyPlot" = getEnergyPlot(),
+         "treedepthPlot" = getTreedepthPlot(),
+         "stepSizePlot" = getStepSizePlot(),
+         "acceptancePlot" = getAcceptancePlot())
     }))
   
 }

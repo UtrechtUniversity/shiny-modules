@@ -41,11 +41,12 @@ energy <- function(input, output, session){
     paste("Chain", chain())
   })
   
-  output$plot1 <- renderPlot({
+  plotOut <- function(chain){
+    
     color_scheme_set("blue")
     mcmc_nuts_energy(
-      if(chain() != 0) {
-        nuts_params(list(sso@sampler_params[[chain()]]) %>%
+      if(chain != 0) {
+        nuts_params(list(sso@sampler_params[[chain]]) %>%
                       lapply(., as.data.frame) %>%
                       lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
                       lapply(., as.matrix))
@@ -57,5 +58,14 @@ energy <- function(input, output, session){
         
       }
     )
+  }
+  
+  output$plot1 <- renderPlot({
+    plotOut(chain = chain())
   })
+  
+  return(reactive({
+    plotOut(chain = chain())
+  }))
+  
 }
