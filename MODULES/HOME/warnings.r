@@ -95,7 +95,7 @@ warnings <- function (input, output, session) {
       
       energy <- lapply(sso@sampler_params, "[", , "energy__") %>%
         lapply(., as.data.frame) %>% 
-        lapply(., filter, row_number() == (1 + sso@n_warmup):sso@n_iter) 
+        lapply(., filter, row_number() > sso@n_warmup) 
       
       EBFMIs <- c()
       
