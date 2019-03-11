@@ -18,7 +18,7 @@ summaryTableUI <- function(id){
             label = NULL,
             multiple = TRUE,
             choices = sso@param_names,
-            selected = sso@param_names[1]
+            selected = if(length(sso@param_names) > 9) sso@param_names[1:10] else sso@param_names
           )
         ),
         column(
