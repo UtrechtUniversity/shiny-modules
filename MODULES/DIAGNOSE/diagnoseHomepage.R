@@ -25,8 +25,9 @@ diagnose <- function(input, output, session){
     
     getTracePlot <- callModule(tracePlot, "tracePlot")  
     getRhatNeffSEmeanPlots <- callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
-    callModule(autoCorrelationStats, "autoCorrelationStats")
+    callModule(autoCorrelation, "autoCorrelation")
     
+    callModule(statsTableHMC, "statsTableHMC")
     callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
     callModule(autoCorrelationStats, "autoCorrelationStats")
     
