@@ -29,7 +29,7 @@ warnings <- function (input, output, session) {
     
     checkDivergences <- lapply(sso@sampler_params, "[", , "divergent__") %>%
       lapply(., as.data.frame) %>%
-      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+      lapply(., filter, row_number() > sso@n_warmup) %>%
       lapply(., function (x) x > 0 ) %>% lapply(., sum) %>% 
       unlist(.) %>% sum(.) %>%
       paste0(., " of ", (sso@n_iter-sso@n_warmup) * sso@n_chain,
@@ -39,7 +39,7 @@ warnings <- function (input, output, session) {
     
     if(lapply(sso@sampler_params, "[", , "divergent__") %>%
        lapply(., as.data.frame) %>%
-       lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+       lapply(., filter, row_number() > sso@n_warmup) %>%
        lapply(., function (x) x > 0 ) %>% lapply(., sum) %>% 
        unlist(.) %>% sum(.) > 0) {
       HTML(paste0("<div style='background-color:red; color:white; 
@@ -61,7 +61,7 @@ warnings <- function (input, output, session) {
     
     check_treedepth <- lapply(sso@sampler_params, "[", , "treedepth__") %>%
       lapply(., as.data.frame) %>%
-      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+      lapply(., filter, row_number() > sso@n_warmup) %>%
       lapply(., function (x) x == sso@misc$max_td ) %>% lapply(., sum) %>% 
       unlist(.) %>% sum(.) %>%
       paste0(., " of ", (sso@n_iter-sso@n_warmup) * sso@n_chain,
@@ -72,7 +72,7 @@ warnings <- function (input, output, session) {
     
     if(lapply(sso@sampler_params, "[", , "treedepth__") %>%
        lapply(., as.data.frame) %>%
-       lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+       lapply(., filter, row_number() > sso@n_warmup) %>%
        lapply(., function (x) x == sso@misc$max_td ) %>% 
        lapply(., sum) %>% unlist(.) %>% sum(.) > 0) {
         HTML(paste0("<div style='background-color:red; color:white; 

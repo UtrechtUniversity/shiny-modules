@@ -61,7 +61,7 @@ statsTableHMC <- function(input, output, session){
     sp <- if (input$sampler_warmup == "include")
       sso@sampler_params else sso@sampler_params %>%
       lapply(., as.data.frame) %>%
-      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter)
+      lapply(., filter, row_number() > sso@n_warmup)
     
     .sampler_stuff <- function(X, param, report) {
       sapply_funs <- function(x, fun_name) {

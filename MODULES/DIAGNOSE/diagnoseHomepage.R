@@ -23,12 +23,47 @@ diagnose <- function(input, output, session){
     getStepSizePlot <- callModule(stepSize, "stepSize")
     getAcceptancePlot <- callModule(acceptance, "acceptance")
     
-    callModule(statsTableHMC, "statsTableHMC")
+    getTracePlot <- callModule(tracePlot, "tracePlot")  
+    getRhatNeffSEmeanPlots <- callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
+    callModule(autoCorrelationStats, "autoCorrelationStats")
+    
     callModule(rhat_n_eff_se_mean_stats, "rhat_n_eff_se_mean_stats")
     callModule(autoCorrelationStats, "autoCorrelationStats")
-  }
+    
+    getInputReactiveDiagnosePlots <- reactive({
+      list(
+      "parcoordPlot" = getParcoordPlot(),
+      "pairsPlot" = getPairsPlot()
+      # "pairsPlot" = NULL,
+      # "parcoordPlot" = NULL
+      )
+    })
+    
+    getDiagnosePlots <- reactive({
+      list("divergentScatterPlot" = getDivergentScatterPlot(),
+           # "pairsPlot" = NULL,
+           # "parcoordPlot" = NULL,
+           "divergentTransitionsPlot" = getDivergentTransitionsPlot(),
+           "energyPlot" = getEnergyPlot(),
+           "treedepthPlot" = getTreedepthPlot(),
+           "stepSizePlot" = getStepSizePlot(),
+           "acceptancePlot" = getAcceptancePlot(),
+           "tracePlot" = getTracePlot(),
+           "rhatPlot" = getRhatNeffSEmeanPlots()["rhatPlot"],
+           "n_effPlot" = getRhatNeffSEmeanPlots()["n_effPlot"],
+           "se_meanPlot" = getRhatNeffSEmeanPlots()["se_meanPlot"])
+    })
+    
+    
+    callModule(report, "report", ggplotsList = getDiagnosePlots, 
+               getParcoordPlot = reactive({
+                 list("parcoordPlot" = getParcoordPlot())}),
+               getPairsPlot = reactive({
+                 list("pairsPlot" = getPairsPlot())
+               }))
+    }
   
-  if(sso@misc$stan_method == "sampling"){
+  if(sso@misc$stan_method == "sampling" & sso@misc$stan_algorithm != "NUTS"){
     getTracePlot <- callModule(tracePlot, "tracePlot")  
     getRhatNeffSEmeanPlots <- callModule(rhat_n_eff_se_mean, "rhat_n_eff_se_mean")
     callModule(autoCorrelation, "autoCorrelation")
@@ -134,6 +169,11 @@ diagnose <- function(input, output, session){
           autoCorrelationStatsUI(session$ns("autoCorrelationStats"))
         )
       )
+    ),
+    tabPanel(
+      title = "Report",
+      reportUI(session$ns("report")
+        )
     )
     )
     )
@@ -197,8 +237,10 @@ diagnose <- function(input, output, session){
   
   return(reactive({
     list("divergentScatterPlot" = getDivergentScatterPlot(),
-         "parcoordPlot" = getParcoordPlot(),
-         "pairsPlot" = getPairsPlot(),
+         # "parcoordPlot" = getParcoordPlot(),
+         # "pairsPlot" = getPairsPlot(),
+         "pairsPlot" = NULL,
+         "parcoordPlot" = NULL,
          "divergentTransitionsPlot" = getDivergentTransitionsPlot(),
          "energyPlot" = getEnergyPlot(),
          "treedepthPlot" = getTreedepthPlot(),

@@ -33,7 +33,9 @@ server <- function(input, output, session) {
   callModule(modelCode, "modelCode")
   callModule(help, "help")
   callModule(glossary, "glossary")
-  callModule(report, "report", ggplotsList = getDiagnosePlots)
-  # callModule(test, "test")
+  # callModule(report, "report", ggplotsList = getDiagnosePlots[getDiagnosePlots != "pairsPlot"],
+  #            getPairsPlot = getDiagnosePlots[getDiagnosePlots == "pairsPlot"], 
+  #            getParcoordPlot = getDiagnosePlots[getDiagnosePlots == "parcoordPlot"])
+  
 }
 

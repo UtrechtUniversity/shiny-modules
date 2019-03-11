@@ -73,7 +73,7 @@ pairs <- function(input, output, session){
           pars = parameters,
           np = nuts_params(list(sso@sampler_params[[chain]]) %>%
                              lapply(., as.data.frame) %>%
-                             lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+                             lapply(., filter, row_number() > sso@n_warmup) %>%
                              lapply(., as.matrix))
         )
       } else {
@@ -82,7 +82,7 @@ pairs <- function(input, output, session){
           pars = parameters,
           np = nuts_params(sso@sampler_params %>%
                              lapply(., as.data.frame) %>%
-                             lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+                             lapply(., filter, row_number() > sso@n_warmup) %>%
                              lapply(., as.matrix))
         )
       }

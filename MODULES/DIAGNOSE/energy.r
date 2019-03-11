@@ -48,12 +48,12 @@ energy <- function(input, output, session){
       if(chain != 0) {
         nuts_params(list(sso@sampler_params[[chain]]) %>%
                       lapply(., as.data.frame) %>%
-                      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+                      lapply(., filter, row_number() > sso@n_warmup) %>%
                       lapply(., as.matrix))
       } else {
         nuts_params(sso@sampler_params %>%
                       lapply(., as.data.frame) %>%
-                      lapply(., filter, row_number() == (1 + sso@n_warmup) : sso@n_iter) %>%
+                      lapply(., filter, row_number() > sso@n_warmup) %>%
                       lapply(., as.matrix)) 
         
       }

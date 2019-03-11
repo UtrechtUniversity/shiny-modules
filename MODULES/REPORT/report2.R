@@ -65,35 +65,22 @@ reportUI <- function(id) {
   
 }
 
-report <- function(input, output, session, ggplotsList) {
+report <- function(input, output, session, ggplotsList,
+                   getParcoordPlot, getPairsPlot, ...) {
   
-  
-  # downloadSelection <- reactive({
-  #   out <- NULL
-  #   if(input$divergentScatter == TRUE) out <- append(out, print(ggplotsList()["divergentScatterPlot"]))
-  #   if(input$pairs == TRUE) out <- append(out, print(ggplotsList()["pairsPlot"]))
-  #   if(input$parcoord == TRUE) out <- append(out, print(ggplotsList()["parcoordPlot"]))
-  #   if(input$divergentTransitions == TRUE) out <- append(out, print(ggplotsList()["divergentTransitionsPlot"]))
-  #   if(input$energy == TRUE) out <- append(out, print(ggplotsList()["energyPlot"]))
-  #   if(input$treedepth == TRUE) out <- append(out, print(ggplotsList()["treedepthPlot"]))
-  #   if(input$stepSize == TRUE) out <- append(out, print(ggplotsList()["stepSizePlot"]))
-  #   if(input$acceptance == TRUE) out <- append(out, print(ggplotsList()["acceptancePlot"]))
-  #   if(input$trace == TRUE) out <- append(out, print(ggplotsList()["tracePlot"]))
-  #   if(input$rhat == TRUE) out <- append(out, print(ggplotsList()["rhatPlot"]))
-  #   if(input$n_eff == TRUE) out <- append(out, print(ggplotsList()["n_effPlot"]))
-  #   if(input$se_mean == TRUE) out <- append(out, print(ggplotsList()["se_meanPlot"]))
-  #   out
-  # })
-  # 
+  # input_names <- names(list(...))
+  # print(input_names)
   
   output$downloadPlot <- downloadHandler(
     filename = 'test.pdf',
     content = function(file) {
       # ggsave(file, gridExtra::arrangeGrob(grobs = downloadSelection()))
       pdf(file)
+      # if(is.na(match("divergentScatterPlot", input_names)) == FALSE) if(input$divergentScatter == TRUE) print(divergentScatterPlot())
+      
       if(input$divergentScatter == TRUE) print(ggplotsList()["divergentScatterPlot"])
-      if(input$pairs == TRUE) print(ggplotsList()["pairsPlot"])
-      if(input$parcoord == TRUE) print(ggplotsList()["parcoordPlot"])
+      if(input$pairs == TRUE) print(getPairsPlot()["pairsPlot"])
+      if(input$parcoord == TRUE) print(getParcoordPlot()["parcoordPlot"])
       if(input$divergentTransitions == TRUE) print(ggplotsList()["divergentTransitionsPlot"])
       if(input$energy == TRUE) print(ggplotsList()["energyPlot"])
       if(input$treedepth == TRUE) print(ggplotsList()["treedepthPlot"])

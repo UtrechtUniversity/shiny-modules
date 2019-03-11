@@ -39,3 +39,4 @@ rsconnect/
 # hide a reference folder
 /shinystan
 /TEST MODELS
+DATA/fit_full_model_cp.rds
